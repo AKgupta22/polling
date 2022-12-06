@@ -46,20 +46,23 @@ export default function Signup() {
 
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid item md={2} xs={12}></Grid>
-        <Grid item md={8} xs={12}>
-          <h5 className="background text-light text-center p-2 m-auto mt-2 heading">
-            SignUp
-          </h5>
+      <Grid container spacing={2} className="flex-form">
+        <Grid item xs={2}></Grid>
+        <Grid
+          item
+          xs={8}
+          style={{ background: "white", padding: 0, borderRadius: "12px" }}
+        >
+          <h3 className="text-dark text-center mt-2">SignUp</h3>
           <Box
             component="form"
             sx={{
-              "& > :not(style)": { m: 1, width: "98%" },
+              "& > :not(style)": { m: 1, width: "100%" },
             }}
             noValidate
             autoComplete="off"
             onSubmit={formHandler.handleSubmit}
+            className="w-75 m-auto p-4"
           >
             <TextField
               id="outlined-username-input"
@@ -125,7 +128,7 @@ export default function Signup() {
                 formHandler.touched.cpassword && formHandler.errors.cpassword
               }
             />
-            <Button type="sumbit" variant="contained" className="background">
+            <Button type="sumbit" variant="contained" className="custom-btn">
               {state.isLoading ? <Loader /> : "Signup"}
             </Button>
             <Link to="/" style={{ color: "black", textDecoration: "none" }}>
@@ -133,7 +136,7 @@ export default function Signup() {
             </Link>
           </Box>
         </Grid>
-        <Grid item md={2} xs={12}></Grid>
+        <Grid item xs={2}></Grid>
       </Grid>
     </>
   );
