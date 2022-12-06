@@ -1,0 +1,22 @@
+#root {
+    height: 100vh;
+}
+
+.background {
+    background-color: #557153 !important;
+}
+
+.home-hover:hover {
+    color: inherit;
+}
+
+.list-group-item {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.heading {
+    border-radius: 2rem;
+    font-weight: 700;
+    width: 80%;
+}
