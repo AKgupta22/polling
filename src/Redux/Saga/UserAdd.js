@@ -4,13 +4,13 @@ import { registrationSuccess, registrationError } from '../Actions'
 import FetchApi from '../API/FetchApi'
 
 function* RegisterData({ payload }) {
-    const query = `add_user?username=${payload.username}&password=${payload.password}&role=${payload.username}`
+    const query = `add_user?username=${payload.username}&password=${payload.password}&role=${payload.role}`
     try {
-        const data = yield call(FetchApi, query)
-        if (data.error === 0)
-            yield put(registrationSuccess(data))
+        const response = yield call(FetchApi, query)
+        if (response.data.error === 0)
+            yield put(registrationSuccess(response.data))
         else
-            yield put(registrationError(data))
+            yield put(registrationError(response.data))
     }
     catch (error) {
         yield put(registrationError(error))
