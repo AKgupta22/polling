@@ -1,9 +1,11 @@
 #root {
-    height: 100vh;
+    min-height: 100vh;
+    background-color: #0093E9;
+    background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
 }
 
 .background {
-    background-color: #557153 !important;
+    background-color: #5783db !important;
 }
 
 .home-hover:hover {
@@ -27,12 +29,27 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #0093E9;
-    background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
 }
 
 .custom-btn {
     height: 3rem !important;
     border-radius: 2rem !important;
     background-color: #5783db !important;
+}
+
+.form-text-buttom {
+    font-size: 1rem;
+}
+
+@media (max-width:547px) {
+    .form-text-buttom {
+        font-size: .6rem;
+    }
+}
+
+.my-card {
+    height: auto;
+    background: white;
+    border: none;
+    border-radius: 1rem;
 }
