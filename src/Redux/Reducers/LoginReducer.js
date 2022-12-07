@@ -1,17 +1,16 @@
-import { REGISTRATION_SUCCESS, REGISTRATION_ERROR, REGISTRATION_REQUEST, LOGIN_FALSE } from '../Actions/actionTypes'
-
+import { LOGIN_SUCCESS, LOGIN_ERROR, LOGIN_REQUEST, LOGIN_FALSE } from '../Actions/actionTypes'
 const intialstate = { isLoading: false, isSuccess: false, isError: false, data: {} }
 
-const UserReducer = (state = intialstate, action) => {
-    if (action.type === REGISTRATION_REQUEST) {
+const LoginReducer = (state = intialstate, action) => {
+    if (action.type === LOGIN_REQUEST) {
         return {
             ...state, isLoading: true
         }
     }
-    else if (action.type === REGISTRATION_SUCCESS) {
+    else if (action.type === LOGIN_SUCCESS) {
         return { isLoading: false, isError: false, isSuccess: true, data: { ...action.payload } }
     }
-    else if (action.type === REGISTRATION_ERROR) {
+    else if (action.type === LOGIN_ERROR) {
         return {
             isLoading: false, isSuccess: false, isError: true, data: { ...action.payload }
         }
@@ -21,4 +20,4 @@ const UserReducer = (state = intialstate, action) => {
     }
     return state
 }
-export default UserReducer
+export default LoginReducer

@@ -1,27 +1,49 @@
 import React, { useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { registrationRequest } from "../../Redux/Actions";
+import { loginRequest, loginFalse } from "../../Redux/Actions";
 import Loader from "../Generic/Loader";
 import Snackbar from "../Generic/Snackbar";
+import setlocalStorage from "../../services/SetLocalStorage";
 
-export default function Signup() {
+export default function Login() {
   const dispatch = useDispatch();
-  const state = useSelector((state) => state.UserReducer);
+  const stateSignup = useSelector((state) => state.UserReducer);
+  const stateLogin = useSelector((state) => state.LoginReducer);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (state.isSuccess) navigate("/login");
-  }, [state.isSuccess, navigate]);
+    if (stateLogin.isSuccess) {
+      setlocalStorage("login", 'true');
+      setlocalStorage("token", stateLogin.data.token);
+      setlocalStorage("role", stateLogin.data.decoded.role);
+      if (stateLogin.data.decoded.role === "admin")
+        navigate("/admin-dashboard");
+      else navigate("/user-dashboard");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stateLogin.isSuccess]);
+
+  useEffect(() => {
+    if (stateSignup.isSuccess) {
+      dispatch(
+        loginRequest({
+          username: stateSignup.data.data.username,
+          password: stateSignup.data.data.password,
+        })
+      );
+    }
+    return () => {
+      dispatch(loginFalse());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stateSignup.isSuccess]);
 
   const validationSchema = yup.object({
     username: yup
@@ -31,24 +53,16 @@ export default function Signup() {
       .string("Enter your password")
       .min(6, "Password should be of minimum 6 characters length")
       .required("Password is required"),
-    cpassword: yup
-      .string("Enter your password")
-      .min(6, "Password should be of minimum 6 characters length")
-      .required("Password is required"),
   });
 
   const formHandler = useFormik({
     initialValues: {
-      username: "",
-      role: "Guest",
-      password: "",
-      cpassword: "",
+      username: stateSignup.isSuccess ? stateSignup.data.data.username : "",
+      password: stateSignup.isSuccess ? stateSignup.data.data.password : "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      if (values.password === values.cpassword) {
-        dispatch(registrationRequest(values));
-      } else alert("Confirm password and Password mismatch");
+      dispatch(loginRequest(values));
     },
   });
 
@@ -62,17 +76,17 @@ export default function Signup() {
           xs={8}
           style={{ background: "white", padding: 0, borderRadius: "12px" }}
         >
-          <h3 className="text-dark text-center mt-2">SignUp</h3>
-          {state.isSuccess ? (
+          <h3 className="text-dark text-center mt-2">Login</h3>
+          {stateLogin.isSuccess ? (
             <Snackbar
               type="success"
-              message="Registration succesful! Redirecting....."
+              message="Login succesful! Redirecting....."
             />
           ) : (
             ""
           )}
-          {state.isError ? (
-            <Snackbar type="error" message={`${state.data?.message}`} />
+          {stateLogin.isError ? (
+            <Snackbar type="error" message={`${stateLogin.data?.data}`} />
           ) : (
             ""
           )}
@@ -103,19 +117,6 @@ export default function Signup() {
                 formHandler.touched.username && formHandler.errors.username
               }
             />
-
-            <InputLabel id="demo-select-small">Role</InputLabel>
-            <Select
-              labelId="Role"
-              id="Role"
-              name="role"
-              value={formHandler.values.role}
-              onChange={formHandler.handleChange}
-            >
-              <MenuItem value="Guest">Guest</MenuItem>
-              <MenuItem value="admin">Admin</MenuItem>
-            </Select>
-
             <TextField
               id="outlined-password-input"
               label="Password*"
@@ -133,31 +134,11 @@ export default function Signup() {
                 formHandler.touched.password && formHandler.errors.password
               }
             />
-            <TextField
-              id="outlined-cpassword-input"
-              label="Confirm Password *"
-              type="password"
-              autoComplete="current-cpassword"
-              placeholder="Confirm Password"
-              name="cpassword"
-              value={formHandler.values.cpassword}
-              onChange={formHandler.handleChange}
-              error={
-                formHandler.touched.cpassword &&
-                Boolean(formHandler.errors.cpassword)
-              }
-              helperText={
-                formHandler.touched.cpassword && formHandler.errors.cpassword
-              }
-            />
             <Button type="sumbit" variant="contained" className="custom-btn">
-              {state.isLoading ? <Loader /> : "Signup"}
+              {stateLogin.isLoading ? <Loader /> : "Login"}
             </Button>
-            <Link
-              to="/login"
-              style={{ color: "black", textDecoration: "none" }}
-            >
-              Existing User? Login now
+            <Link to="/" style={{ color: "black", textDecoration: "none" }}>
+              New User? Register Now
             </Link>
           </Box>
         </Grid>
