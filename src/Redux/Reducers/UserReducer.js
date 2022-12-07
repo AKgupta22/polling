@@ -1,4 +1,4 @@
-import { REGISTRATION_SUCCESS, REGISTRATION_ERROR, REGISTRATION_REQUEST } from '../Actions/actionTypes'
+import { REGISTRATION_SUCCESS, REGISTRATION_ERROR, REGISTRATION_REQUEST, LOGIN_FALSE } from '../Actions/actionTypes'
 
 const intialstate = { isLoading: false, isSuccess: false, isError: false, data: {} }
 
@@ -15,6 +15,9 @@ const UserReducer = (state = intialstate, action) => {
         return {
             isLoading: false, isSuccess: false, isError: true, data: { ...action.payload }
         }
+    }
+    else if (action.type === LOGIN_FALSE) {
+        return intialstate
     }
     return state
 }

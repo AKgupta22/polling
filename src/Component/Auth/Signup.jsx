@@ -55,9 +55,10 @@ export default function Signup() {
   return (
     <>
       <Grid container spacing={2} className="flex-form">
-        <Grid item xs={2}></Grid>
+        <Grid item md={3} xs={2}></Grid>
         <Grid
           item
+          md={6}
           xs={8}
           style={{ background: "white", padding: 0, borderRadius: "12px" }}
         >
@@ -160,7 +161,7 @@ export default function Signup() {
             </Link>
           </Box>
         </Grid>
-        <Grid item xs={2}></Grid>
+        <Grid item md={3} xs={2}></Grid>
       </Grid>
     </>
   );

@@ -7,16 +7,31 @@ import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { loginRequest } from "../../Redux/Actions";
+import { loginRequest ,loginFalse} from "../../Redux/Actions";
 import Loader from "../Generic/Loader";
 import Snackbar from "../Generic/Snackbar";
-import jwt_decode from "jwt-decode";
+import setlocalStorage from "../../services/SetLocalStorage";
 
 export default function Login() {
   const dispatch = useDispatch();
   const stateSignup = useSelector((state) => state.UserReducer);
   const stateLogin = useSelector((state) => state.LoginReducer);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (stateLogin.isSuccess) {
+      setlocalStorage(
+        stateLogin.data.token,
+        stateLogin.data.decoded.username,
+        stateLogin.data.decoded.role,
+        stateLogin.data.decoded._id
+      );
+      if (stateLogin.data.decoded.role === "admin")
+        navigate("/admin-dashboard");
+      else navigate("/user-dashboard");
+    }
+
+  }, [stateLogin.isSuccess]);
 
   useEffect(() => {
     if (stateSignup.isSuccess) {
@@ -27,18 +42,10 @@ export default function Login() {
         })
       );
     }
-
-    if (stateLogin.isSuccess) {
-      const decoded = jwt_decode(stateLogin.data.token);
-      localStorage.setItem("login", true);
-      localStorage.setItem("token", stateLogin.data.token);
-      localStorage.setItem("username", decoded.username);
-      localStorage.setItem("role", decoded.role);
-      localStorage.setItem("id", decoded._id);
-      if (decoded.role === "admin") navigate("/admin-dashboard");
-      else navigate("/user-dashboard");
+    return()=>{
+      dispatch(loginFalse())
     }
-  }, [stateLogin.isSuccess]);
+  }, [stateSignup.isSuccess]);
 
   const validationSchema = yup.object({
     username: yup
@@ -64,9 +71,10 @@ export default function Login() {
   return (
     <>
       <Grid container spacing={2} className="flex-form">
-        <Grid item xs={2}></Grid>
+        <Grid item md={3} xs={2}></Grid>
         <Grid
           item
+          md={6}
           xs={8}
           style={{ background: "white", padding: 0, borderRadius: "12px" }}
         >
@@ -136,7 +144,7 @@ export default function Login() {
             </Link>
           </Box>
         </Grid>
-        <Grid item xs={2}></Grid>
+        <Grid item md={3} xs={2}></Grid>
       </Grid>
     </>
   );
