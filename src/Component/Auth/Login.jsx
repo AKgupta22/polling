@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { loginRequest ,loginFalse} from "../../Redux/Actions";
+import { loginRequest, loginFalse } from "../../Redux/Actions";
 import Loader from "../Generic/Loader";
 import Snackbar from "../Generic/Snackbar";
 import setlocalStorage from "../../services/SetLocalStorage";
@@ -20,17 +20,14 @@ export default function Login() {
 
   useEffect(() => {
     if (stateLogin.isSuccess) {
-      setlocalStorage(
-        stateLogin.data.token,
-        stateLogin.data.decoded.username,
-        stateLogin.data.decoded.role,
-        stateLogin.data.decoded._id
-      );
+      setlocalStorage("login", 'true');
+      setlocalStorage("token", stateLogin.data.token);
+      setlocalStorage("role", stateLogin.data.decoded.role);
       if (stateLogin.data.decoded.role === "admin")
         navigate("/admin-dashboard");
       else navigate("/user-dashboard");
     }
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stateLogin.isSuccess]);
 
   useEffect(() => {
@@ -42,9 +39,10 @@ export default function Login() {
         })
       );
     }
-    return()=>{
-      dispatch(loginFalse())
-    }
+    return () => {
+      dispatch(loginFalse());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stateSignup.isSuccess]);
 
   const validationSchema = yup.object({
