@@ -54,6 +54,16 @@
     border-radius: 1rem;
 }
 
-.pagination p{
+.pagination p {
     margin: auto;
+}
+
+.poll-card {
+    min-height: 19rem;
+}
+
+@media (max-width:767px) {
+    .poll-card {
+        min-height: 35rem;
+    }
 }

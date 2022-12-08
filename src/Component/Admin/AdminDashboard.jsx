@@ -27,7 +27,8 @@ export default function AdminDashboard() {
       <div className="w-100 text-center mb-2">
         <Link
           to="/admin-add-poll"
-          className="btn btn-sm btn-primary text-light text-center"
+          className="btn btn-sm btn-success text-light text-center p-3"
+          style={{ borderRadius: "1rem" }}
         >
           Add Poll
         </Link>

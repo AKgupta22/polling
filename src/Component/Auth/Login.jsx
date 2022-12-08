@@ -88,7 +88,7 @@ export default function Login() {
             ""
           )}
           {stateLogin.isError ? (
-            <Snackbar type="error" message={`${stateLogin.data?.data}`} />
+            <Snackbar type="error" message={`${stateLogin.data?.message}` || 'Some Error'} />
           ) : (
             ""
           )}
