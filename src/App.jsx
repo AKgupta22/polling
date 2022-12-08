@@ -5,6 +5,7 @@ import "./asset/css/style.css";
 import Login from "./Component/Auth/Login";
 import UserDashboard from "./Component/User/UserDashboard";
 import AdminDashboard from "./Component/Admin/AdminDashboard";
+import AdminAddPoll from "./Component/Admin/AdminAddPoll";
 export default function App() {
   return (
     <BrowserRouter>
@@ -13,6 +14,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/user-dashboard" element={<UserDashboard />} />
+        <Route path="/admin-add-poll" element={<AdminAddPoll />} />
       </Routes>
     </BrowserRouter>
   );
