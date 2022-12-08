@@ -4,7 +4,7 @@ import { pollAddSuccess, pollAddError } from '../Actions'
 import FetchApi from '../API/FetchApi'
 
 function* PollAddData({ payload }) {
-    console.log(payload);
+    
     let query = `add_poll?title=${payload.data.title}&options=${payload.data.option1}`
     if (payload.data.option2)
         query = query + `____${payload.data.option2}`

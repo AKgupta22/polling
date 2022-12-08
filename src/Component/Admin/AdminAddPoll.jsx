@@ -19,9 +19,6 @@ export default function AdminAddPoll() {
   const [data, setData] = useState({
     title: "",
     option1: "",
-    option2: "",
-    option3: "",
-    option4: "",
   });
 
   useEffect(() => {
@@ -29,9 +26,6 @@ export default function AdminAddPoll() {
       setData({
         title: "",
         option1: "",
-        option2: "",
-        option3: "",
-        option4: "",
       });
       navigate("/admin-dashboard");
     }
@@ -58,16 +52,19 @@ export default function AdminAddPoll() {
   };
 
   const AddOption = () => {
-    if (fields.length < 4)
+    if (fields.length < 3) {
+      let tempData = { ...data, [`option${fields.length + 2}`]: "" };
+      setData({ ...tempData });
       setFields([
         ...fields,
         <InputField
-          key={fields.length}
+          key={fields.length + 2}
           handleChange={handleChange}
-          number={fields.length + 1}
-          data={data}
+          number={fields.length + 2}
+          data={tempData}
         />,
       ]);
+    }
   };
   return (
     <>
@@ -113,16 +110,17 @@ export default function AdminAddPoll() {
               value={data.title}
               required
             />
+            <InputField handleChange={handleChange} number={1} data={data} />
             {fields.map((item) => item)}
             <Button
               variant="contained"
               className="custom-btn"
               onClick={AddOption}
             >
-              ADD OPTION
+              ADD MORE OPTION
             </Button>
             <Button type="sumbit" variant="contained" className="custom-btn">
-              {state.isLoading ? <Loader /> : "ADD POLL"}
+              {state.isLoading ? <Loader /> : "SUBMIT"}
             </Button>
           </Box>
         </Grid>
