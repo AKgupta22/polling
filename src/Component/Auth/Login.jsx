@@ -20,7 +20,7 @@ export default function Login() {
 
   useEffect(() => {
     if (stateLogin.isSuccess) {
-      setlocalStorage("login", 'true');
+      setlocalStorage("login", "true");
       setlocalStorage("token", stateLogin.data.token);
       setlocalStorage("role", stateLogin.data.decoded.role);
       if (stateLogin.data.decoded.role === "admin")
@@ -69,11 +69,13 @@ export default function Login() {
   return (
     <>
       <Grid container spacing={2} className="flex-form">
-        <Grid item md={3} xs={2}></Grid>
+        <Grid item lg={4} md={3} sm={2} xs={1}></Grid>
         <Grid
           item
+          lg={4}
           md={6}
-          xs={8}
+          sm={8}
+          xs={10}
           style={{ background: "white", padding: 0, borderRadius: "12px" }}
         >
           <h3 className="text-dark text-center mt-2">Login</h3>
@@ -137,12 +139,19 @@ export default function Login() {
             <Button type="sumbit" variant="contained" className="custom-btn">
               {stateLogin.isLoading ? <Loader /> : "Login"}
             </Button>
-            <Link to="/" style={{ color: "black", textDecoration: "none" }}>
+            <Link
+              to="/"
+              style={{
+                color: "black",
+                textDecoration: "none",
+              }}
+              className="form-text-buttom"
+            >
               New User? Register Now
             </Link>
           </Box>
         </Grid>
-        <Grid item md={3} xs={2}></Grid>
+        <Grid item lg={4} md={3} sm={2} xs={1}></Grid>
       </Grid>
     </>
   );

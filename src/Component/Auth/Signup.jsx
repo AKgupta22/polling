@@ -55,11 +55,13 @@ export default function Signup() {
   return (
     <>
       <Grid container spacing={2} className="flex-form">
-        <Grid item md={3} xs={2}></Grid>
+        <Grid item lg={4} md={3} sm={2} xs={1}></Grid>
         <Grid
           item
+          lg={4}
           md={6}
-          xs={8}
+          sm={8}
+          xs={10}
           style={{ background: "white", padding: 0, borderRadius: "12px" }}
         >
           <h3 className="text-dark text-center mt-2">SignUp</h3>
@@ -155,13 +157,17 @@ export default function Signup() {
             </Button>
             <Link
               to="/login"
-              style={{ color: "black", textDecoration: "none" }}
+              style={{
+                color: "black",
+                textDecoration: "none",
+              }}
+              className="form-text-buttom"
             >
               Existing User? Login now
             </Link>
           </Box>
         </Grid>
-        <Grid item md={3} xs={2}></Grid>
+        <Grid item lg={4} md={3} sm={2} xs={1}></Grid>
       </Grid>
     </>
   );
