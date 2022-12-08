@@ -8,6 +8,7 @@ import GetLocalStorage from "../../services/GetLocalStorage";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Generic/Loader";
 import Snackbar from "../Generic/Snackbar";
+import AlertAdd from "../Generic/AlertAdd";
 import InputField from "../Generic/InputField";
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +16,7 @@ export default function AdminAddPoll() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.PollAddReducer);
   const [fields, setFields] = useState([]);
+  const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const [data, setData] = useState({
     title: "",
@@ -64,7 +66,7 @@ export default function AdminAddPoll() {
           data={tempData}
         />,
       ]);
-    }
+    } else setShow(true);
   };
   return (
     <>
@@ -119,6 +121,14 @@ export default function AdminAddPoll() {
             >
               ADD MORE OPTION
             </Button>
+            {show ? (
+              <AlertAdd
+                text="Maximum 4 option is allowed!!"
+                handler={() => setShow(false)}
+              />
+            ) : (
+              ""
+            )}
             <Button type="sumbit" variant="contained" className="custom-btn">
               {state.isLoading ? <Loader /> : "SUBMIT"}
             </Button>

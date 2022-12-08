@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import TablePagination from "@mui/material/TablePagination";
 import { useSelector } from "react-redux";
 
-export default function Pagination({ data, setData }) {
+export default function Pagination({ setData }) {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [count, setCount] = useState(0);
   const state = useSelector((state) => state.PollFetchReducer);
 
@@ -16,7 +16,7 @@ export default function Pagination({ data, setData }) {
   useEffect(() => {
     let tempData = [...state.data];
     const startIndex = page * rowsPerPage;
-    const lastIndex = (startIndex + 1) * rowsPerPage - 1;
+    const lastIndex = startIndex  + rowsPerPage;
     tempData = tempData.slice(startIndex, lastIndex);
     setData(tempData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -39,6 +39,7 @@ export default function Pagination({ data, setData }) {
       page={page}
       onPageChange={handleChangePage}
       rowsPerPage={rowsPerPage}
+      rowsPerPageOptions={[5, 10, 15]}
       onRowsPerPageChange={handleChangeRowsPerPage}
     />
   );

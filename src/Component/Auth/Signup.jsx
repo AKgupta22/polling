@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
@@ -13,11 +13,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { registrationRequest } from "../../Redux/Actions";
 import Loader from "../Generic/Loader";
 import Snackbar from "../Generic/Snackbar";
+import AlertAdd from "../Generic/AlertAdd";
 
 export default function Signup() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.UserReducer);
   const navigate = useNavigate();
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (state.isSuccess) navigate("/login");
@@ -48,7 +50,7 @@ export default function Signup() {
     onSubmit: (values) => {
       if (values.password === values.cpassword) {
         dispatch(registrationRequest(values));
-      } else alert("Confirm password and Password mismatch");
+      } else setShow(true);
     },
   });
 
@@ -105,7 +107,6 @@ export default function Signup() {
                 formHandler.touched.username && formHandler.errors.username
               }
             />
-
             <InputLabel id="demo-select-small">Role</InputLabel>
             <Select
               labelId="Role"
@@ -117,7 +118,6 @@ export default function Signup() {
               <MenuItem value="Guest">Guest</MenuItem>
               <MenuItem value="admin">Admin</MenuItem>
             </Select>
-
             <TextField
               id="outlined-password-input"
               label="Password*"
@@ -152,6 +152,14 @@ export default function Signup() {
                 formHandler.touched.cpassword && formHandler.errors.cpassword
               }
             />
+            {show ? (
+              <AlertAdd
+                text="Confirm password and Password mismatch"
+                handler={() => setShow(false)}
+              />
+            ) : (
+              ""
+            )}
             <Button type="sumbit" variant="contained" className="custom-btn">
               {state.isLoading ? <Loader /> : "Signup"}
             </Button>
