@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import {
   singlePollRequest,
@@ -14,6 +12,7 @@ import Loader from "../Generic/Loader";
 import Snackbar from "../Generic/Snackbar";
 import { useNavigate, useParams } from "react-router-dom";
 import Wrapper from "../Generic/Wrapper";
+import FormWrapper from '../Generic/FormWrapper'
 
 export default function AdminEditPoll() {
   const dispatch = useDispatch();
@@ -60,16 +59,7 @@ export default function AdminEditPoll() {
   };
 
   return (
-    <Wrapper>
-      <Grid
-        item
-        lg={4}
-        md={6}
-        sm={8}
-        xs={10}
-        style={{ background: "white", padding: 0, borderRadius: "12px" }}
-      >
-        <h3 className="text-dark text-center mt-2">Edit Poll</h3>
+    <Wrapper heading="Edit Poll">
         {state.isLoading && (
           <h4 className="text-center">
             <Loader />
@@ -81,16 +71,7 @@ export default function AdminEditPoll() {
           ""
         )}
         {state.isError ? <Snackbar type="error" message={"Some Error"} /> : ""}
-        <Box
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "100%" },
-          }}
-          noValidate
-          autoComplete="off"
-          onSubmit={handleForm}
-          className="w-75 m-auto p-4"
-        >
+        <FormWrapper handler={handleForm}>
           <TextField
             onChange={(e) => setData(e.target.value)}
             id="outlined-title-input"
@@ -111,8 +92,7 @@ export default function AdminEditPoll() {
           ) : (
             ""
           )}
-        </Box>
-      </Grid>
+        </FormWrapper>
     </Wrapper>
   );
 }

@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
-import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
@@ -12,6 +10,7 @@ import Loader from "../Generic/Loader";
 import Snackbar from "../Generic/Snackbar";
 import setlocalStorage from "../../services/setLocalStorage";
 import Wrapper from "../Generic/Wrapper";
+import FormWrapper from '../Generic/FormWrapper'
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -68,16 +67,7 @@ export default function Login() {
   });
 
   return (
-    <Wrapper>
-      <Grid
-        item
-        lg={4}
-        md={6}
-        sm={8}
-        xs={10}
-        style={{ background: "white", padding: 0, borderRadius: "12px" }}
-      >
-        <h3 className="text-dark text-center mt-2">Login</h3>
+    <Wrapper heading="Login">
         {stateLogin.isSuccess ? (
           <Snackbar
             type="success"
@@ -89,21 +79,12 @@ export default function Login() {
         {stateLogin.isError ? (
           <Snackbar
             type="error"
-            message={`${stateLogin.data?.data}` || "Some Error"}
+            message={`${stateLogin.data?.data}`}
           />
         ) : (
           ""
         )}
-        <Box
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "100%" },
-          }}
-          noValidate
-          autoComplete="off"
-          onSubmit={formHandler.handleSubmit}
-          className="w-75 m-auto p-4"
-        >
+          <FormWrapper handler={formHandler.handleSubmit}>
           <TextField
             id="outlined-username-input"
             label="UserName*"
@@ -151,8 +132,7 @@ export default function Login() {
           >
             New User? Register Now
           </Link>
-        </Box>
-      </Grid>
+        </FormWrapper>
     </Wrapper>
   );
 }
