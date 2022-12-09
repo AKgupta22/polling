@@ -10,7 +10,7 @@ import Loader from "../Generic/Loader";
 import Snackbar from "../Generic/Snackbar";
 import setlocalStorage from "../../services/setLocalStorage";
 import Wrapper from "../Generic/Wrapper";
-import FormWrapper from '../Generic/FormWrapper'
+import FormWrapper from "../Generic/FormWrapper"
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -68,71 +68,71 @@ export default function Login() {
 
   return (
     <Wrapper heading="Login">
-        {stateLogin.isSuccess ? (
-          <Snackbar
-            type="success"
-            message="Login succesful! Redirecting....."
-          />
-        ) : (
-          ""
-        )}
-        {stateLogin.isError ? (
-          <Snackbar
-            type="error"
-            message={`${stateLogin.data?.data}`}
-          />
-        ) : (
-          ""
-        )}
-          <FormWrapper handler={formHandler.handleSubmit}>
-          <TextField
-            id="outlined-username-input"
-            label="UserName*"
-            type="text"
-            autoComplete="current-Username"
-            placeholder="Enter Username"
-            name="username"
-            value={formHandler.values.username}
-            onChange={formHandler.handleChange}
-            error={
-              formHandler.touched.username &&
+      {stateLogin.isSuccess ? (
+        <Snackbar
+          type="success"
+          message="Login succesful! Redirecting....."
+        />
+      ) : (
+        ""
+      )}
+      {stateLogin.isError ? (
+        <Snackbar
+          type="error"
+          message={`${stateLogin.data?.data}`}
+        />
+      ) : (
+        ""
+      )}
+      <FormWrapper handler={formHandler.handleSubmit}>
+        <TextField
+          id="outlined-username-input"
+          label="UserName*"
+          type="text"
+          autoComplete="current-Username"
+          placeholder="Enter Username"
+          name="username"
+          value={formHandler.values.username}
+          onChange={formHandler.handleChange}
+          error={
+            formHandler.touched.username &&
               Boolean(formHandler.errors.username)
-            }
-            helperText={
-              formHandler.touched.username && formHandler.errors.username
-            }
-          />
-          <TextField
-            id="outlined-password-input"
-            label="Password*"
-            type="password"
-            autoComplete="current-password"
-            placeholder="Enter your password"
-            name="password"
-            value={formHandler.values.password}
-            onChange={formHandler.handleChange}
-            error={
-              formHandler.touched.password &&
+          }
+          helperText={
+            formHandler.touched.username && formHandler.errors.username
+          }
+        />
+        <TextField
+          id="outlined-password-input"
+          label="Password*"
+          type="password"
+          autoComplete="current-password"
+          placeholder="Enter your password"
+          name="password"
+          value={formHandler.values.password}
+          onChange={formHandler.handleChange}
+          error={
+            formHandler.touched.password &&
               Boolean(formHandler.errors.password)
-            }
-            helperText={
-              formHandler.touched.password && formHandler.errors.password
-            }
-          />
-          <Button type="sumbit" variant="contained" className="custom-btn">
-            {stateLogin.isLoading ? <Loader /> : "Login"}
-          </Button>
-          <Link
-            to="/register"
-            style={{
-              color: "black",
-              textDecoration: "none",
-            }}
-            className="form-text-buttom"
-          >
+          }
+          helperText={
+            formHandler.touched.password && formHandler.errors.password
+          }
+        />
+        <Button type="sumbit" variant="contained" className="custom-btn">
+          {stateLogin.isLoading ? <Loader /> : "Login"}
+        </Button>
+        <Link
+          to="/register"
+          style={{
+            color: "black",
+            textDecoration: "none",
+          }}
+          className="form-text-buttom"
+        >
             New User? Register Now
-          </Link>
-        </FormWrapper>
+        </Link>
+      </FormWrapper>
     </Wrapper>
   );
 }

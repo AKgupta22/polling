@@ -71,45 +71,45 @@ export default function AdminAddPoll() {
   return (
     <Wrapper heading="Add Poll">
 
-        {state.isSuccess ? (
-          <Snackbar type="success" message="succesful! Redirecting....." />
+      {state.isSuccess ? (
+        <Snackbar type="success" message="succesful! Redirecting....." />
+      ) : (
+        ""
+      )}
+      {state.isError ? <Snackbar type="error" message={"Some Error"} /> : ""}
+      <FormWrapper handler={handleForm}>
+        <TextField
+          onChange={handleChange}
+          id="outlined-title-input"
+          label="Poll Title"
+          type="text"
+          autoComplete="poll-title"
+          placeholder="Enter Poll Title"
+          name="title"
+          value={data.title}
+          required
+        />
+        <InputField handleChange={handleChange} number={1} data={data} />
+        {fields.map((item) => item)}
+        <Button
+          variant="contained"
+          className="custom-btn"
+          onClick={AddOption}
+        >
+            ADD MORE OPTION
+        </Button>
+        {show ? (
+          <AlertAdd
+            text="Maximum 4 option is allowed!!"
+            handler={() => setShow(false)}
+          />
         ) : (
           ""
         )}
-        {state.isError ? <Snackbar type="error" message={"Some Error"} /> : ""}
-         <FormWrapper handler={handleForm}>
-          <TextField
-            onChange={handleChange}
-            id="outlined-title-input"
-            label="Poll Title"
-            type="text"
-            autoComplete="poll-title"
-            placeholder="Enter Poll Title"
-            name="title"
-            value={data.title}
-            required
-          />
-          <InputField handleChange={handleChange} number={1} data={data} />
-          {fields.map((item) => item)}
-          <Button
-            variant="contained"
-            className="custom-btn"
-            onClick={AddOption}
-          >
-            ADD MORE OPTION
-          </Button>
-          {show ? (
-            <AlertAdd
-              text="Maximum 4 option is allowed!!"
-              handler={() => setShow(false)}
-            />
-          ) : (
-            ""
-          )}
-          <Button type="sumbit" variant="contained" className="custom-btn">
-            {state.isLoading ? <Loader /> : "SUBMIT"}
-          </Button>
-          </FormWrapper>
+        <Button type="sumbit" variant="contained" className="custom-btn">
+          {state.isLoading ? <Loader /> : "SUBMIT"}
+        </Button>
+      </FormWrapper>
     </Wrapper>
   );
 }

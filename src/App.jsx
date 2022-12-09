@@ -18,7 +18,7 @@ export default function App() {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/user-dashboard" element={<UserDashboard />} />
         <Route path="/admin-add-poll" element={<AdminAddPoll />} />
-        <Route path="/admin-edit-poll/:q" element={<AdminEditPoll />} />
+        <Route path="/admin-edit-poll/:id" element={<AdminEditPoll />} />
       </Routes>
     </BrowserRouter>
   );

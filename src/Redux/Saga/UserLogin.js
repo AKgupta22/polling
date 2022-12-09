@@ -1,31 +1,31 @@
 import { call, put, takeEvery } from "@redux-saga/core/effects";
-import { LOGIN_REQUEST } from '../Actions/actionTypes'
-import { loginSuccess, loginError } from '../Actions'
-import FetchApi from '../API/FetchApi'
+import { LOGIN_REQUEST } from "../Actions/actionTypes"
+import { loginSuccess, loginError } from "../Actions"
+import FetchApi from "../API/FetchApi"
 import jwt_decode from "jwt-decode";
 
 
 function* LoginData({ payload }) {
-    const query = `login?username=${payload.username}&password=${payload.password}`
-    try {
-        const response = yield call(FetchApi, query)
-        if (response.data.error === 0) {
-            const decoded = jwt_decode(response.data.token)
-            yield put(loginSuccess({ ...response.data, decoded }))
-        }
-        else
-            yield put(loginError(response.data))
+  const query = `login?username=${payload.username}&password=${payload.password}`
+  try {
+    const response = yield call(FetchApi, query)
+    if (response.data.error === 0) {
+      const decoded = jwt_decode(response.data.token)
+      yield put(loginSuccess({ ...response.data, decoded }))
     }
-    catch (error) {
-        const data={
-            data:"Internal server error"
-        }
-        yield put(loginError(data))
+    else
+      yield put(loginError(response.data))
+  }
+  catch (error) {
+    const data={
+      data:"Internal server error"
     }
+    yield put(loginError(data))
+  }
 
 }
 
 function* LoginSaga() {
-    yield takeEvery(LOGIN_REQUEST, LoginData)
+  yield takeEvery(LOGIN_REQUEST, LoginData)
 }
 export default LoginSaga;
