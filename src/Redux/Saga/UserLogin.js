@@ -9,14 +9,18 @@ function* LoginData({ payload }) {
     const query = `login?username=${payload.username}&password=${payload.password}`
     try {
         const response = yield call(FetchApi, query)
-        const decoded = jwt_decode(response.data.token)
-        if (response.data.error === 0)
+        if (response.data.error === 0) {
+            const decoded = jwt_decode(response.data.token)
             yield put(loginSuccess({ ...response.data, decoded }))
+        }
         else
             yield put(loginError(response.data))
     }
     catch (error) {
-        yield put(loginError(error))
+        const data={
+            data:"Internal server error"
+        }
+        yield put(loginError(data))
     }
 
 }

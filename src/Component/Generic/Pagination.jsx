@@ -6,7 +6,7 @@ export default function Pagination({ setData }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [count, setCount] = useState(0);
-  const state = useSelector((state) => state.PollFetchReducer);
+  const state = useSelector((state) => state.pollFetchReducer);
 
   useEffect(() => {
     setCount(state.data.length);

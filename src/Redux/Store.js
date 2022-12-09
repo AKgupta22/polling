@@ -1,16 +1,11 @@
 import { applyMiddleware, createStore } from "redux";
 import AllReducer from './Reducers'
 import createSagaMiddleware from 'redux-saga'
-import RegisterSaga from './Saga/UserAdd'
-import LoginSaga from './Saga/UserLogin'
-import PollFetchSaga from './Saga/PollFetch'
-import PollAddSaga from './Saga/PollAdd'
+import rootSaga from "./Saga";
 import logger from 'redux-logger'
 const sagaMiddleware = createSagaMiddleware()
 
 const MyStore = createStore(AllReducer, applyMiddleware(sagaMiddleware, logger))
-sagaMiddleware.run(RegisterSaga)
-sagaMiddleware.run(LoginSaga)
-sagaMiddleware.run(PollFetchSaga)
-sagaMiddleware.run(PollAddSaga)
+sagaMiddleware.run(rootSaga)
+
 export default MyStore

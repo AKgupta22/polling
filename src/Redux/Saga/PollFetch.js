@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from "@redux-saga/core/effects";
-import { POLL_REQUEST } from '../Actions/actionTypes'
+import { POLL_LIST_REQUEST } from '../Actions/actionTypes'
 import { pollSuccess, pollError } from '../Actions'
 import FetchApi from '../API/FetchApi'
 
@@ -19,7 +19,7 @@ function* PollFetchData({ payload }) {
 
 }
 
-function* PollFetchSaga() {
-    yield takeEvery(POLL_REQUEST, PollFetchData)
+function* pollFetchSaga() {
+    yield takeEvery(POLL_LIST_REQUEST, PollFetchData)
 }
-export default PollFetchSaga;
+export default pollFetchSaga;

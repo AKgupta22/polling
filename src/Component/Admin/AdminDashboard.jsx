@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { pollRequest } from "../../Redux/Actions";
-import GetLocalStorage from "../../services/GetLocalStorage";
+import { pollRequest, pollReset } from "../../Redux/Actions";
+import getLocalStorage from "../../services/getLocalStorage";
 import PollCard from "../Generic/PollCard";
 import Loader from "../Generic/Loader";
 import { Link } from "react-router-dom";
 import Pagination from "../Generic/Pagination";
 
 export default function AdminDashboard() {
-  const state = useSelector((state) => state.PollFetchReducer);
+  const state = useSelector((state) => state.pollFetchReducer);
+  const statePollDel = useSelector((state) => state.PollDelReducer);
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const [role, setRole] = useState("");
 
   useEffect(() => {
-    dispatch(pollRequest({ token: GetLocalStorage("token") }));
-    setRole(GetLocalStorage("role"));
+    dispatch(pollRequest({ token: getLocalStorage("token") }));
+    setRole(getLocalStorage("role"));
+    return () => {
+      dispatch(pollReset());
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [statePollDel.isSuccess]);
 
   return (
     <div className="container-fluid" style={{ minHeight: "100vh" }}>

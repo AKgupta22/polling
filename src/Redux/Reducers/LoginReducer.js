@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_ERROR, LOGIN_REQUEST, LOGIN_FALSE } from '../Actions/actionTypes'
+import { LOGIN_SUCCESS, LOGIN_ERROR, LOGIN_REQUEST, LOGIN_RESET } from '../Actions/actionTypes'
 const intialstate = { isLoading: false, isSuccess: false, isError: false, data: {} }
 
 const LoginReducer = (state = intialstate, action) => {
@@ -15,7 +15,7 @@ const LoginReducer = (state = intialstate, action) => {
             isLoading: false, isSuccess: false, isError: true, data: { ...action.payload }
         }
     }
-    else if (action.type === LOGIN_FALSE) {
+    else if (action.type === LOGIN_RESET) {
         return intialstate
     }
     return state
