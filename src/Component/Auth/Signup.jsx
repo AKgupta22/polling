@@ -164,7 +164,7 @@ export default function Signup() {
               {state.isLoading ? <Loader /> : "Signup"}
             </Button>
             <Link
-              to="/login"
+              to="/"
               style={{
                 color: "black",
                 textDecoration: "none",

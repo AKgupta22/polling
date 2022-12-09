@@ -88,7 +88,7 @@ export default function Login() {
             ""
           )}
           {stateLogin.isError ? (
-            <Snackbar type="error" message={`${stateLogin.data?.message}` || 'Some Error'} />
+            <Snackbar type="error" message={`${stateLogin.data?.data}` || 'Some Error'} />
           ) : (
             ""
           )}
@@ -140,7 +140,7 @@ export default function Login() {
               {stateLogin.isLoading ? <Loader /> : "Login"}
             </Button>
             <Link
-              to="/"
+              to="/register"
               style={{
                 color: "black",
                 textDecoration: "none",
