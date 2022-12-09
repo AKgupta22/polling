@@ -4,9 +4,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { pollDelRequest } from "../../Redux/Actions";
 import { useDispatch, useSelector } from "react-redux";
-import GetLocalStorage from "../../services/GetLocalStorage";
+import getLocalStorage from "../../services/getLocalStorage";
 import Loader from "./Loader";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 export default function PollCard({ item, role }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.PollDelReducer);
@@ -27,21 +27,22 @@ export default function PollCard({ item, role }) {
         <div className="col-md-6 col-12">
           <div className="btn-container d-flex justify-content-center p-2">
             <Button
-              component={state.isLoading ? <Loader /> : <DeleteIcon />}
               handler={() =>
                 dispatch(
                   pollDelRequest({
-                    token: GetLocalStorage("token"),
+                    token: getLocalStorage("token"),
                     id: item._id,
                   })
                 )
               }
-            />
+            >
+              {state.isLoading ? <Loader /> : <DeleteIcon />}
+            </Button>
             <Link
               className="btn background text-light text-center mx-1"
               to={`/admin-edit-poll/${item._id}`}
             >
-              <EditIcon/>
+              <EditIcon />
             </Link>
           </div>
           {item.options?.map((option, i) => (
@@ -51,7 +52,7 @@ export default function PollCard({ item, role }) {
           ))}
         </div>
       ) : (
-        <div className="col-md-6 col-12">user right</div>
+        <div className="col-md-6 col-12">user right yet to build</div>
       )}
     </div>
   );

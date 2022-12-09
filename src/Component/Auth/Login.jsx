@@ -7,10 +7,11 @@ import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { loginRequest, loginFalse } from "../../Redux/Actions";
+import { loginRequest, loginReset } from "../../Redux/Actions";
 import Loader from "../Generic/Loader";
 import Snackbar from "../Generic/Snackbar";
-import setlocalStorage from "../../services/SetLocalStorage";
+import setlocalStorage from "../../services/setLocalStorage";
+import Wrapper from "../Generic/Wrapper";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ export default function Login() {
       );
     }
     return () => {
-      dispatch(loginFalse());
+      dispatch(loginReset());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stateSignup.isSuccess]);
@@ -67,92 +68,91 @@ export default function Login() {
   });
 
   return (
-    <>
-      <Grid container spacing={2} className="flex-form">
-        <Grid item lg={4} md={3} sm={2} xs={1}></Grid>
-        <Grid
-          item
-          lg={4}
-          md={6}
-          sm={8}
-          xs={10}
-          style={{ background: "white", padding: 0, borderRadius: "12px" }}
+    <Wrapper>
+      <Grid
+        item
+        lg={4}
+        md={6}
+        sm={8}
+        xs={10}
+        style={{ background: "white", padding: 0, borderRadius: "12px" }}
+      >
+        <h3 className="text-dark text-center mt-2">Login</h3>
+        {stateLogin.isSuccess ? (
+          <Snackbar
+            type="success"
+            message="Login succesful! Redirecting....."
+          />
+        ) : (
+          ""
+        )}
+        {stateLogin.isError ? (
+          <Snackbar
+            type="error"
+            message={`${stateLogin.data?.data}` || "Some Error"}
+          />
+        ) : (
+          ""
+        )}
+        <Box
+          component="form"
+          sx={{
+            "& > :not(style)": { m: 1, width: "100%" },
+          }}
+          noValidate
+          autoComplete="off"
+          onSubmit={formHandler.handleSubmit}
+          className="w-75 m-auto p-4"
         >
-          <h3 className="text-dark text-center mt-2">Login</h3>
-          {stateLogin.isSuccess ? (
-            <Snackbar
-              type="success"
-              message="Login succesful! Redirecting....."
-            />
-          ) : (
-            ""
-          )}
-          {stateLogin.isError ? (
-            <Snackbar type="error" message={`${stateLogin.data?.data}` || 'Some Error'} />
-          ) : (
-            ""
-          )}
-          <Box
-            component="form"
-            sx={{
-              "& > :not(style)": { m: 1, width: "100%" },
+          <TextField
+            id="outlined-username-input"
+            label="UserName*"
+            type="text"
+            autoComplete="current-Username"
+            placeholder="Enter Username"
+            name="username"
+            value={formHandler.values.username}
+            onChange={formHandler.handleChange}
+            error={
+              formHandler.touched.username &&
+              Boolean(formHandler.errors.username)
+            }
+            helperText={
+              formHandler.touched.username && formHandler.errors.username
+            }
+          />
+          <TextField
+            id="outlined-password-input"
+            label="Password*"
+            type="password"
+            autoComplete="current-password"
+            placeholder="Enter your password"
+            name="password"
+            value={formHandler.values.password}
+            onChange={formHandler.handleChange}
+            error={
+              formHandler.touched.password &&
+              Boolean(formHandler.errors.password)
+            }
+            helperText={
+              formHandler.touched.password && formHandler.errors.password
+            }
+          />
+          <Button type="sumbit" variant="contained" className="custom-btn">
+            {stateLogin.isLoading ? <Loader /> : "Login"}
+          </Button>
+          <Link
+            to="/register"
+            style={{
+              color: "black",
+              textDecoration: "none",
             }}
-            noValidate
-            autoComplete="off"
-            onSubmit={formHandler.handleSubmit}
-            className="w-75 m-auto p-4"
+            className="form-text-buttom"
           >
-            <TextField
-              id="outlined-username-input"
-              label="UserName*"
-              type="text"
-              autoComplete="current-Username"
-              placeholder="Enter Username"
-              name="username"
-              value={formHandler.values.username}
-              onChange={formHandler.handleChange}
-              error={
-                formHandler.touched.username &&
-                Boolean(formHandler.errors.username)
-              }
-              helperText={
-                formHandler.touched.username && formHandler.errors.username
-              }
-            />
-            <TextField
-              id="outlined-password-input"
-              label="Password*"
-              type="password"
-              autoComplete="current-password"
-              placeholder="Enter your password"
-              name="password"
-              value={formHandler.values.password}
-              onChange={formHandler.handleChange}
-              error={
-                formHandler.touched.password &&
-                Boolean(formHandler.errors.password)
-              }
-              helperText={
-                formHandler.touched.password && formHandler.errors.password
-              }
-            />
-            <Button type="sumbit" variant="contained" className="custom-btn">
-              {stateLogin.isLoading ? <Loader /> : "Login"}
-            </Button>
-            <Link
-              to="/register"
-              style={{
-                color: "black",
-                textDecoration: "none",
-              }}
-              className="form-text-buttom"
-            >
-              New User? Register Now
-            </Link>
-          </Box>
-        </Grid>
-        <Grid item lg={4} md={3} sm={2} xs={1}></Grid>
+            New User? Register Now
+          </Link>
+        </Box>
       </Grid>
-    </>
+    </Wrapper>
   );
 }

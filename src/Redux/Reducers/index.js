@@ -1,6 +1,6 @@
 import UserReducer from './UserReducer'
 import LoginReducer from './LoginReducer'
-import PollFetchReducer from './PollFetchReducer'
+import pollFetchReducer from './PollFetchReducer'
 import PollAddReducer from './PollAddReducer'
 import PollDelReducer from './PollDeleteReducer'
 import SinglePollReducer from './SinglePollReducer'
@@ -10,7 +10,7 @@ import { combineReducers } from 'redux'
 const AllReducers = combineReducers({
    UserReducer,
    LoginReducer,
-   PollFetchReducer,
+   pollFetchReducer,
    PollAddReducer,
    PollDelReducer,
    SinglePollReducer,

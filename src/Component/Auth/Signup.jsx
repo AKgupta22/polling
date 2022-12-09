@@ -14,6 +14,7 @@ import { registrationRequest } from "../../Redux/Actions";
 import Loader from "../Generic/Loader";
 import Snackbar from "../Generic/Snackbar";
 import AlertAdd from "../Generic/AlertAdd";
+import Wrapper from "../Generic/Wrapper";
 
 export default function Signup() {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ export default function Signup() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    if (state.isSuccess) navigate("/login");
+    if (state.isSuccess) navigate("/");
   }, [state.isSuccess, navigate]);
 
   const validationSchema = yup.object({
@@ -55,128 +56,124 @@ export default function Signup() {
   });
 
   return (
-    <>
-      <Grid container spacing={2} className="flex-form">
-        <Grid item lg={4} md={3} sm={2} xs={1}></Grid>
-        <Grid
-          item
-          lg={4}
-          md={6}
-          sm={8}
-          xs={10}
-          style={{ background: "white", padding: 0, borderRadius: "12px" }}
+    <Wrapper>
+      <Grid
+        item
+        lg={4}
+        md={6}
+        sm={8}
+        xs={10}
+        style={{ background: "white", padding: 0, borderRadius: "12px" }}
+      >
+        <h3 className="text-dark text-center mt-2">SignUp</h3>
+        {state.isSuccess ? (
+          <Snackbar
+            type="success"
+            message="Registration succesful! Redirecting....."
+          />
+        ) : (
+          ""
+        )}
+        {state.isError ? (
+          <Snackbar type="error" message={`${state.data?.message}`} />
+        ) : (
+          ""
+        )}
+        <Box
+          component="form"
+          sx={{
+            "& > :not(style)": { m: 1, width: "100%" },
+          }}
+          noValidate
+          autoComplete="off"
+          onSubmit={formHandler.handleSubmit}
+          className="w-75 m-auto p-4"
         >
-          <h3 className="text-dark text-center mt-2">SignUp</h3>
-          {state.isSuccess ? (
-            <Snackbar
-              type="success"
-              message="Registration succesful! Redirecting....."
-            />
-          ) : (
-            ""
-          )}
-          {state.isError ? (
-            <Snackbar type="error" message={`${state.data?.message}`} />
-          ) : (
-            ""
-          )}
-          <Box
-            component="form"
-            sx={{
-              "& > :not(style)": { m: 1, width: "100%" },
-            }}
-            noValidate
-            autoComplete="off"
-            onSubmit={formHandler.handleSubmit}
-            className="w-75 m-auto p-4"
+          <TextField
+            id="outlined-username-input"
+            label="UserName*"
+            type="text"
+            autoComplete="current-Username"
+            placeholder="Enter Username"
+            name="username"
+            value={formHandler.values.username}
+            onChange={formHandler.handleChange}
+            error={
+              formHandler.touched.username &&
+              Boolean(formHandler.errors.username)
+            }
+            helperText={
+              formHandler.touched.username && formHandler.errors.username
+            }
+          />
+          <InputLabel id="demo-select-small">Role</InputLabel>
+          <Select
+            labelId="Role"
+            id="Role"
+            name="role"
+            value={formHandler.values.role}
+            onChange={formHandler.handleChange}
           >
-            <TextField
-              id="outlined-username-input"
-              label="UserName*"
-              type="text"
-              autoComplete="current-Username"
-              placeholder="Enter Username"
-              name="username"
-              value={formHandler.values.username}
-              onChange={formHandler.handleChange}
-              error={
-                formHandler.touched.username &&
-                Boolean(formHandler.errors.username)
-              }
-              helperText={
-                formHandler.touched.username && formHandler.errors.username
-              }
+            <MenuItem value="Guest">Guest</MenuItem>
+            <MenuItem value="admin">Admin</MenuItem>
+          </Select>
+          <TextField
+            id="outlined-password-input"
+            label="Password*"
+            type="password"
+            autoComplete="current-password"
+            placeholder="Enter your password"
+            name="password"
+            value={formHandler.values.password}
+            onChange={formHandler.handleChange}
+            error={
+              formHandler.touched.password &&
+              Boolean(formHandler.errors.password)
+            }
+            helperText={
+              formHandler.touched.password && formHandler.errors.password
+            }
+          />
+          <TextField
+            id="outlined-cpassword-input"
+            label="Confirm Password *"
+            type="password"
+            autoComplete="current-cpassword"
+            placeholder="Confirm Password"
+            name="cpassword"
+            value={formHandler.values.cpassword}
+            onChange={formHandler.handleChange}
+            error={
+              formHandler.touched.cpassword &&
+              Boolean(formHandler.errors.cpassword)
+            }
+            helperText={
+              formHandler.touched.cpassword && formHandler.errors.cpassword
+            }
+          />
+          {show ? (
+            <AlertAdd
+              text="Confirm password and Password mismatch"
+              handler={() => setShow(false)}
             />
-            <InputLabel id="demo-select-small">Role</InputLabel>
-            <Select
-              labelId="Role"
-              id="Role"
-              name="role"
-              value={formHandler.values.role}
-              onChange={formHandler.handleChange}
-            >
-              <MenuItem value="Guest">Guest</MenuItem>
-              <MenuItem value="admin">Admin</MenuItem>
-            </Select>
-            <TextField
-              id="outlined-password-input"
-              label="Password*"
-              type="password"
-              autoComplete="current-password"
-              placeholder="Enter your password"
-              name="password"
-              value={formHandler.values.password}
-              onChange={formHandler.handleChange}
-              error={
-                formHandler.touched.password &&
-                Boolean(formHandler.errors.password)
-              }
-              helperText={
-                formHandler.touched.password && formHandler.errors.password
-              }
-            />
-            <TextField
-              id="outlined-cpassword-input"
-              label="Confirm Password *"
-              type="password"
-              autoComplete="current-cpassword"
-              placeholder="Confirm Password"
-              name="cpassword"
-              value={formHandler.values.cpassword}
-              onChange={formHandler.handleChange}
-              error={
-                formHandler.touched.cpassword &&
-                Boolean(formHandler.errors.cpassword)
-              }
-              helperText={
-                formHandler.touched.cpassword && formHandler.errors.cpassword
-              }
-            />
-            {show ? (
-              <AlertAdd
-                text="Confirm password and Password mismatch"
-                handler={() => setShow(false)}
-              />
-            ) : (
-              ""
-            )}
-            <Button type="sumbit" variant="contained" className="custom-btn">
-              {state.isLoading ? <Loader /> : "Signup"}
-            </Button>
-            <Link
-              to="/"
-              style={{
-                color: "black",
-                textDecoration: "none",
-              }}
-              className="form-text-buttom"
-            >
-              Existing User? Login now
-            </Link>
-          </Box>
-        </Grid>
-        <Grid item lg={4} md={3} sm={2} xs={1}></Grid>
+          ) : (
+            ""
+          )}
+          <Button type="sumbit" variant="contained" className="custom-btn">
+            {state.isLoading ? <Loader /> : "Signup"}
+          </Button>
+          <Link
+            to="/"
+            style={{
+              color: "black",
+              textDecoration: "none",
+            }}
+            className="form-text-buttom"
+          >
+            Existing User? Login now
+          </Link>
+        </Box>
       </Grid>
-    </>
+    </Wrapper>
   );
 }

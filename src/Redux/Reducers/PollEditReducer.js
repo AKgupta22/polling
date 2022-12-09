@@ -1,4 +1,4 @@
-import { POLL_EDIT_REQUEST, POLL_EDIT_SUCCESS, POLL_EDIT_ERROR, POLL_EDIT_FALSE } from '../Actions/actionTypes'
+import { POLL_EDIT_REQUEST, POLL_EDIT_SUCCESS, POLL_EDIT_ERROR, POLL_EDIT_RESET } from '../Actions/actionTypes'
 const intialstate = { isLoading: false, isSuccess: false, isError: false, data: {} }
 
 const PollEditReducer = (state = intialstate, action) => {
@@ -15,7 +15,7 @@ const PollEditReducer = (state = intialstate, action) => {
             isLoading: false, isSuccess: false, isError: true, data: { ...action.payload }
         }
     }
-    else if (action.type === POLL_EDIT_FALSE) {
+    else if (action.type === POLL_EDIT_RESET) {
         return intialstate
     }
     return state

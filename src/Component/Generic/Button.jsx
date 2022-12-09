@@ -1,13 +1,9 @@
 import React from "react";
 
-export default function Button({ component, isDisabled, handler }) {
+export default function Button(props) {
   return (
-    <button
-      onClick={handler}
-      className="btn background text-light text-center mx-1"
-      disabled={isDisabled}
-    >
-      {component}
+    <button className="btn background text-light text-center mx-1" onClick={props.handler}>
+      {props.children}
     </button>
   );
 }
