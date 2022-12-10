@@ -17,3 +17,4 @@ export default function InputField({ handleChange, number, data }) {
     </>
   );
 }
+React.memo(InputField)

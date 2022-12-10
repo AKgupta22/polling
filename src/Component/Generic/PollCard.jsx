@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "./Button";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -7,9 +7,22 @@ import { useDispatch, useSelector } from "react-redux";
 import getLocalStorage from "../../services/getLocalStorage";
 import Loader from "./Loader";
 import { Link } from "react-router-dom";
+import UserDashBoard from "../User/UserDashboard";
+
 export default function PollCard({ item, role }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.PollDelReducer);
+  const [delid, setDelid] = useState("");
+
+  const deletePoll = (id) => {
+    setDelid(id);
+    dispatch(
+      pollDelRequest({
+        token: getLocalStorage("token"),
+        id: id,
+      })
+    );
+  };
 
   return (
     <div className="row poll-card">
@@ -26,17 +39,12 @@ export default function PollCard({ item, role }) {
       {role === "admin" ? (
         <div className="col-md-6 col-12">
           <div className="btn-container d-flex justify-content-center p-2">
-            <Button
-              handler={() =>
-                dispatch(
-                  pollDelRequest({
-                    token: getLocalStorage("token"),
-                    id: item._id,
-                  })
-                )
-              }
-            >
-              {state.isLoading ? <Loader /> : <DeleteIcon />}
+            <Button handler={() => deletePoll(item._id)}>
+              {state.isLoading && delid === item._id ? (
+                <Loader />
+              ) : (
+                <DeleteIcon />
+              )}
             </Button>
             <Link
               className="btn background text-light text-center mx-1"
@@ -52,8 +60,11 @@ export default function PollCard({ item, role }) {
           ))}
         </div>
       ) : (
-        <div className="col-md-6 col-12">user right yet to build</div>
+        <div className="col-md-6 col-12">
+          <UserDashBoard item={item} />
+        </div>
       )}
     </div>
   );
 }
+React.memo(PollCard);

@@ -7,3 +7,4 @@ export default function Button(props) {
     </button>
   );
 }
+React.memo(Button)

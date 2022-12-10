@@ -44,3 +44,4 @@ export default function Pagination({ setData }) {
     />
   );
 }
+React.memo(Pagination)

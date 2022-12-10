@@ -17,3 +17,4 @@ export default function AlertAdd({ text ,handler }) {
     </div>
   )
 }
+React.memo(AlertAdd)

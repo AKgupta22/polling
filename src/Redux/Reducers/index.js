@@ -5,7 +5,7 @@ import PollAddReducer from "./PollAddReducer"
 import PollDelReducer from "./PollDeleteReducer"
 import SinglePollReducer from "./SinglePollReducer"
 import PollEditReducer from "./PollEditReducer"
-
+import voteReducer from "./VoteReducer"
 import { combineReducers } from "redux"
 const AllReducers = combineReducers({
   UserReducer,
@@ -14,6 +14,7 @@ const AllReducers = combineReducers({
   PollAddReducer,
   PollDelReducer,
   SinglePollReducer,
-  PollEditReducer
+  PollEditReducer,
+  voteReducer
 })
 export default AllReducers

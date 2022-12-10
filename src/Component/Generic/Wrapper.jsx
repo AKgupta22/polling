@@ -19,3 +19,5 @@ export default function Wrapper(props) {
     </Grid>
   );
 }
+
+React.memo(Wrapper)
