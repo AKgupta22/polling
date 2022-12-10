@@ -17,3 +17,5 @@ export default function FormWrapper(props) {
     </Box>
   );
 }
+
+React.memo(FormWrapper)

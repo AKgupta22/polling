@@ -1,11 +1,10 @@
 import axios from "axios";
 const FetchApiHeader = async (query, token) => {
-  const config = {
+  const response = axios.get(`https://etechpolltesting.onrender.com/${query}`, {
     headers: {
-      "access-token": token
+      "access_token": token
     }
-  }
-  const response = axios.get(`https://etechpolltesting.onrender.com/${query}`, config).then(response => response)
+  }).then(response => response)
     .catch(error => error)
   return response
 }

@@ -10,7 +10,7 @@ import Loader from "../Generic/Loader";
 import Snackbar from "../Generic/Snackbar";
 import setlocalStorage from "../../services/setLocalStorage";
 import Wrapper from "../Generic/Wrapper";
-import FormWrapper from "../Generic/FormWrapper"
+import FormWrapper from "../Generic/FormWrapper";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -23,9 +23,7 @@ export default function Login() {
       setlocalStorage("login", "true");
       setlocalStorage("token", stateLogin.data.token);
       setlocalStorage("role", stateLogin.data.decoded.role);
-      if (stateLogin.data.decoded.role === "admin")
-        navigate("/admin-dashboard");
-      else navigate("/user-dashboard");
+      navigate("/dashboard");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stateLogin.isSuccess]);
@@ -69,18 +67,12 @@ export default function Login() {
   return (
     <Wrapper heading="Login">
       {stateLogin.isSuccess ? (
-        <Snackbar
-          type="success"
-          message="Login succesful! Redirecting....."
-        />
+        <Snackbar type="success" message="Login succesful! Redirecting....." />
       ) : (
         ""
       )}
       {stateLogin.isError ? (
-        <Snackbar
-          type="error"
-          message={`${stateLogin.data?.data}`}
-        />
+        <Snackbar type="error" message={`${stateLogin.data?.data}`} />
       ) : (
         ""
       )}
@@ -95,8 +87,7 @@ export default function Login() {
           value={formHandler.values.username}
           onChange={formHandler.handleChange}
           error={
-            formHandler.touched.username &&
-              Boolean(formHandler.errors.username)
+            formHandler.touched.username && Boolean(formHandler.errors.username)
           }
           helperText={
             formHandler.touched.username && formHandler.errors.username
@@ -112,8 +103,7 @@ export default function Login() {
           value={formHandler.values.password}
           onChange={formHandler.handleChange}
           error={
-            formHandler.touched.password &&
-              Boolean(formHandler.errors.password)
+            formHandler.touched.password && Boolean(formHandler.errors.password)
           }
           helperText={
             formHandler.touched.password && formHandler.errors.password
@@ -130,7 +120,7 @@ export default function Login() {
           }}
           className="form-text-buttom"
         >
-            New User? Register Now
+          New User? Register Now
         </Link>
       </FormWrapper>
     </Wrapper>

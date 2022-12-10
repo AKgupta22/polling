@@ -39,7 +39,7 @@ export default function AdminEditPoll() {
 
   useEffect(() => {
     if (editState.isSuccess) {
-      navigate("/admin-dashboard");
+      navigate("/dashboard");
     }
     return () => {
       dispatch(pollEditReset());

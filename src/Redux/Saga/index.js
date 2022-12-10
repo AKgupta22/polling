@@ -6,10 +6,10 @@ import PollAddSaga from "./PollAdd"
 import pollDelSaga from "./PollDelete"
 import singlePollFetchSaga from "./SinglePoll"
 import pollEditSaga from "./PollEdit"
+import VoteSaga from "./DoVote"
 
-const allSaga = [RegisterSaga(), LoginSaga(), pollFetchSaga(), PollAddSaga(), pollDelSaga(), singlePollFetchSaga(), pollEditSaga()]
+const allSaga = [RegisterSaga(), LoginSaga(), pollFetchSaga(), PollAddSaga(), pollDelSaga(), singlePollFetchSaga(), pollEditSaga(), VoteSaga()]
 function* rootSaga() {
-      
   yield all(allSaga)
 }
 
