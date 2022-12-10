@@ -6,7 +6,8 @@ import Login from "./Component/Auth/Login";
 import AdminDashboard from "./Component/Admin/AdminDashboard";
 import AdminAddPoll from "./Component/Admin/AdminAddPoll";
 import AdminEditPoll from "./Component/Admin/AdminEditPoll";
-
+import AdminRoute from "./PrivateRoute/AdminRoute";
+import DashboardRoute from "./PrivateRoute/DashboardRoute";
 
 export default function App() {
   return (
@@ -14,9 +15,30 @@ export default function App() {
       <Routes>
         <Route path="/register" element={<Signup />} />
         <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin-add-poll" element={<AdminAddPoll />} />
-        <Route path="/admin-edit-poll/:id" element={<AdminEditPoll />} />
+        <Route
+          path="/dashboard"
+          element={
+            <DashboardRoute>
+              <AdminDashboard />
+            </DashboardRoute>
+          }
+        />
+        <Route
+          path="/admin-add-poll"
+          element={
+            <AdminRoute>
+              <AdminAddPoll />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin-edit-poll/:id"
+          element={
+            <AdminRoute>
+              <AdminEditPoll />
+            </AdminRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
