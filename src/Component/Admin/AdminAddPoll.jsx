@@ -10,7 +10,7 @@ import AlertAdd from "../Generic/AlertAdd";
 import InputField from "../Generic/InputField";
 import { useNavigate } from "react-router-dom";
 import Wrapper from "../Generic/Wrapper";
-import FormWrapper from  "../Generic/FormWrapper"
+import FormWrapper from "../Generic/FormWrapper";
 
 export default function AdminAddPoll() {
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ export default function AdminAddPoll() {
         title: "",
         option1: "",
       });
-      navigate("/admin-dashboard");
+      navigate("/dashboard");
     }
     return () => {
       dispatch(pollAddReset());
@@ -70,7 +70,6 @@ export default function AdminAddPoll() {
   };
   return (
     <Wrapper heading="Add Poll">
-
       {state.isSuccess ? (
         <Snackbar type="success" message="succesful! Redirecting....." />
       ) : (
@@ -91,12 +90,8 @@ export default function AdminAddPoll() {
         />
         <InputField handleChange={handleChange} number={1} data={data} />
         {fields.map((item) => item)}
-        <Button
-          variant="contained"
-          className="custom-btn"
-          onClick={AddOption}
-        >
-            ADD MORE OPTION
+        <Button variant="contained" className="custom-btn" onClick={AddOption}>
+          ADD MORE OPTION
         </Button>
         {show ? (
           <AlertAdd

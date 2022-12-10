@@ -14,7 +14,7 @@ export default function App() {
       <Routes>
         <Route path="/register" element={<Signup />} />
         <Route path="/" element={<Login />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/dashboard" element={<AdminDashboard />} />
         <Route path="/admin-add-poll" element={<AdminAddPoll />} />
         <Route path="/admin-edit-poll/:id" element={<AdminEditPoll />} />
       </Routes>

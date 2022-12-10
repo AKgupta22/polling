@@ -23,7 +23,7 @@ export default function Login() {
       setlocalStorage("login", "true");
       setlocalStorage("token", stateLogin.data.token);
       setlocalStorage("role", stateLogin.data.decoded.role);
-      navigate("/admin-dashboard");
+      navigate("/dashboard");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stateLogin.isSuccess]);

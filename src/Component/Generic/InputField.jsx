@@ -1,6 +1,7 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
 export default function InputField({ handleChange, number, data }) {
+  
   return (
     <>
       <TextField
@@ -17,4 +18,4 @@ export default function InputField({ handleChange, number, data }) {
     </>
   );
 }
-React.memo(InputField)
+React.memo(InputField);
