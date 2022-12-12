@@ -17,6 +17,7 @@ export default function AdminAddPoll() {
   const state = useSelector((state) => state.PollAddReducer);
   const [fields, setFields] = useState([]);
   const [show, setShow] = useState(false);
+  const [duplicate, setDuplicate] = useState(false);
   const navigate = useNavigate();
   const [data, setData] = useState({
     title: "",
@@ -48,9 +49,13 @@ export default function AdminAddPoll() {
     });
   };
 
+  const validateDuplicate = (arr) => new Set(arr).size !== arr.length;
+
   const handleForm = (e) => {
     e.preventDefault();
-    dispatch(pollAddRequest({ data: data, token: getLocalStorage("token") }));
+    if (validateDuplicate(Object.values(data).slice(1)) === false) {
+      dispatch(pollAddRequest({ data: data, token: getLocalStorage("token") }));
+    } else setDuplicate(true);
   };
 
   const AddOption = () => {
@@ -104,6 +109,14 @@ export default function AdminAddPoll() {
         <Button type="sumbit" variant="contained" className="custom-btn">
           {state.isLoading ? <Loader /> : "SUBMIT"}
         </Button>
+        {duplicate ? (
+          <AlertAdd
+            text="Duplicate option is not allowed!!"
+            handler={() => setDuplicate(false)}
+          />
+        ) : (
+          ""
+        )}
       </FormWrapper>
     </Wrapper>
   );

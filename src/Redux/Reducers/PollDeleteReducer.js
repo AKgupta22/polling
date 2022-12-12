@@ -1,4 +1,4 @@
-import { POLL_DEL_SUCCESS, POLL_DEL_ERROR, POLL_DEL_REQUEST } from "../Actions/actionTypes"
+import { POLL_DEL_SUCCESS, POLL_DEL_ERROR, POLL_DEL_REQUEST, POLL_DEL_RESET } from "../Actions/actionTypes"
 const intialstate = { isLoading: false, isSuccess: false, isError: false, data: {} }
 
 const PollDelReducer = (state = intialstate, action) => {
@@ -14,6 +14,10 @@ const PollDelReducer = (state = intialstate, action) => {
     return {
       isLoading: false, isSuccess: false, isError: true, data: { ...action.payload }
     }
+  }
+  else if (action.type===POLL_DEL_RESET)
+  {
+    return intialstate
   }
   return state
 }

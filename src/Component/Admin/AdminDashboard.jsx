@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { pollRequest, pollReset } from "../../Redux/Actions";
+import { pollRequest, pollReset ,pollDelReset} from "../../Redux/Actions";
 import getLocalStorage from "../../services/getLocalStorage";
 import PollCard from "../Generic/PollCard";
 import Loader from "../Generic/Loader";
@@ -11,6 +11,7 @@ import Button from "../Generic/Button";
 export default function AdminDashboard() {
   const state = useSelector((state) => state.pollFetchReducer);
   const statePollDel = useSelector((state) => state.PollDelReducer);
+  const stateOptionDel = useSelector((state) => state.optionDelReducer);
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const [role, setRole] = useState("");
@@ -21,9 +22,11 @@ export default function AdminDashboard() {
     setRole(getLocalStorage("role"));
     return () => {
       dispatch(pollReset());
+      dispatch(pollDelReset());
+
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statePollDel.isSuccess]);
+  }, [statePollDel.isSuccess, stateOptionDel.isSuccess]);
 
   const Logout = () => {
     localStorage.removeItem("login");

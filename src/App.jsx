@@ -6,6 +6,7 @@ import Login from "./Component/Auth/Login";
 import AdminDashboard from "./Component/Admin/AdminDashboard";
 import AdminAddPoll from "./Component/Admin/AdminAddPoll";
 import AdminEditPoll from "./Component/Admin/AdminEditPoll";
+import AdminAddOption from "./Component/Admin/AdminAddOption";
 import AdminRoute from "./PrivateRoute/AdminRoute";
 import DashboardRoute from "./PrivateRoute/DashboardRoute";
 
@@ -36,6 +37,14 @@ export default function App() {
           element={
             <AdminRoute>
               <AdminEditPoll />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin-add-option/:id"
+          element={
+            <AdminRoute>
+              <AdminAddOption />
             </AdminRoute>
           }
         />
