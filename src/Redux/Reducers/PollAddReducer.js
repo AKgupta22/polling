@@ -2,22 +2,22 @@ import { POLL_ADD_SUCCESS, POLL_ADD_ERROR, POLL_ADD_REQUEST, POLL_ADD_RESET } fr
 const intialstate = { isLoading: false, isSuccess: false, isError: false }
 
 const PollAddReducer = (state = intialstate, action) => {
-  if (action.type === POLL_ADD_REQUEST) {
+  switch(action.type){
+  case (POLL_ADD_REQUEST):{
     return {
       ...state, isLoading: true
     }
   }
-  else if (action.type === POLL_ADD_SUCCESS) {
+  case (POLL_ADD_SUCCESS):{
     return { isLoading: false, isError: false, isSuccess: true }
   }
-  else if (action.type === POLL_ADD_ERROR) {
+  case(POLL_ADD_ERROR):{
     return {
       isLoading: false, isSuccess: false, isError: true
     }
   }
-  else if (action.type === POLL_ADD_RESET) {
-    return intialstate
+  case (POLL_ADD_RESET):return intialstate
+  default: return state
   }
-  return state
 }
 export default PollAddReducer

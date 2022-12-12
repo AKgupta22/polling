@@ -49,10 +49,9 @@ export default function AdminAddPoll() {
     });
   };
 
-  const validateDuplicate = (arr) => new Set(arr).size !== arr.length;
-
   const handleForm = (e) => {
     e.preventDefault();
+    const validateDuplicate = (arr) => new Set(arr).size !== arr.length;
     if (validateDuplicate(Object.values(data).slice(1)) === false) {
       dispatch(pollAddRequest({ data: data, token: getLocalStorage("token") }));
     } else setDuplicate(true);

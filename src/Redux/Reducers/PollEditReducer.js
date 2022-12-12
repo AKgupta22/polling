@@ -2,22 +2,24 @@ import { POLL_EDIT_REQUEST, POLL_EDIT_SUCCESS, POLL_EDIT_ERROR, POLL_EDIT_RESET 
 const intialstate = { isLoading: false, isSuccess: false, isError: false, data: {} }
 
 const PollEditReducer = (state = intialstate, action) => {
-  if (action.type === POLL_EDIT_REQUEST) {
+  switch (action.type) {
+
+  case (POLL_EDIT_REQUEST): {
     return {
       ...state, isLoading: true
     }
   }
-  else if (action.type === POLL_EDIT_SUCCESS) {
+  case (POLL_EDIT_SUCCESS): {
     return { isLoading: false, isError: false, isSuccess: true, data: {} }
   }
-  else if (action.type === POLL_EDIT_ERROR) {
+  case (POLL_EDIT_ERROR): {
     return {
       isLoading: false, isSuccess: false, isError: true, data: { ...action.payload }
     }
   }
-  else if (action.type === POLL_EDIT_RESET) {
+  case (POLL_EDIT_RESET): 
     return intialstate
+  default: return state
   }
-  return state
 }
 export default PollEditReducer

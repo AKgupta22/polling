@@ -12,14 +12,17 @@ const intialstate = {
 };
 
 const optionDelReducer = (state = intialstate, action) => {
-  if (action.type === OPTION_DEL_REQUEST) {
+  switch (action.type) {
+  case (OPTION_DEL_REQUEST): {
     return {
       ...state,
       isLoading: true,
     };
-  } else if (action.type === OPTION_DEL_SUCCESS) {
+  }
+  case (OPTION_DEL_SUCCESS): {
     return { isLoading: false, isError: false, isSuccess: true };
-  } else if (action.type === OPTION_DEL_ERROR) {
+  }
+  case (OPTION_DEL_ERROR): {
     return {
       isLoading: false,
       isSuccess: false,
@@ -27,9 +30,10 @@ const optionDelReducer = (state = intialstate, action) => {
       data: { ...action.payload },
     };
   }
-  else if (action.type === OPTION_DEL_RESET) {
+  case (OPTION_DEL_RESET): {
     return intialstate
   }
-  return state;
+  default: return state
+  }
 };
 export default optionDelReducer;
