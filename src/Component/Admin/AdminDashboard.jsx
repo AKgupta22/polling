@@ -14,8 +14,8 @@ export default function AdminDashboard() {
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const [role, setRole] = useState("");
-  const navigate=useNavigate()
-  
+  const navigate = useNavigate();
+
   useEffect(() => {
     dispatch(pollRequest({ token: getLocalStorage("token") }));
     setRole(getLocalStorage("role"));
@@ -25,10 +25,12 @@ export default function AdminDashboard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statePollDel.isSuccess]);
 
-  const Logout=()=>{
-    localStorage.clear()
-    navigate("/")
-  }
+  const Logout = () => {
+    localStorage.removeItem("login");
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    navigate("/");
+  };
 
   return (
     <div className="container-fluid" style={{ minHeight: "100vh" }}>
@@ -47,11 +49,7 @@ export default function AdminDashboard() {
         </div>
       )}
       <div className="w-100 text-center mb-2">
-        <Button
-          handler={Logout}
-        >
-          Logout
-        </Button>
+        <Button handler={Logout}>Logout</Button>
       </div>
       {state.isLoading ? (
         <h4 className="text-center">
