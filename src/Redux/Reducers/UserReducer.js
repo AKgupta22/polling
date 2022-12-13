@@ -4,20 +4,20 @@ const intialstate = { isLoading: false, isSuccess: false, isError: false, data: 
 
 const UserReducer = (state = intialstate, action) => {
   switch (action.type) {
-  case (REGISTRATION_REQUEST): {
+  case REGISTRATION_REQUEST: {
     return {
       ...state, isLoading: true
     }
   }
-  case (REGISTRATION_SUCCESS): {
+  case REGISTRATION_SUCCESS: {
     return { isLoading: false, isError: false, isSuccess: true, data: { ...action.payload } }
   }
-  case (REGISTRATION_ERROR): {
+  case REGISTRATION_ERROR: {
     return {
       isLoading: false, isSuccess: false, isError: true, data: { ...action.payload }
     }
   }
-  case (LOGIN_RESET):
+  case LOGIN_RESET:
   {
     return { ...state, isSuccess: false }
   }

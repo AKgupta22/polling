@@ -13,16 +13,16 @@ const intialstate = {
 
 const optionDelReducer = (state = intialstate, action) => {
   switch (action.type) {
-  case (OPTION_DEL_REQUEST): {
+  case OPTION_DEL_REQUEST: {
     return {
       ...state,
       isLoading: true,
     };
   }
-  case (OPTION_DEL_SUCCESS): {
+  case OPTION_DEL_SUCCESS: {
     return { isLoading: false, isError: false, isSuccess: true };
   }
-  case (OPTION_DEL_ERROR): {
+  case OPTION_DEL_ERROR: {
     return {
       isLoading: false,
       isSuccess: false,
@@ -30,7 +30,7 @@ const optionDelReducer = (state = intialstate, action) => {
       data: { ...action.payload },
     };
   }
-  case (OPTION_DEL_RESET): {
+  case OPTION_DEL_RESET: {
     return {...state, isSuccess: false }
   }
   default: return state

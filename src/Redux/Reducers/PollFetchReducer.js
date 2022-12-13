@@ -4,23 +4,21 @@ const intialstate = { isLoading: false, isSuccess: false, isError: false, data: 
 const pollFetchReducer = (state = intialstate, action) => {
   switch (action.type) {
 
-  case (POLL_LIST_REQUEST): {
+  case POLL_LIST_REQUEST: {
     return {
       ...state, isLoading: true
     }
   }
-  case (POLL_LIST_SUCCESS): {
+  case POLL_LIST_SUCCESS: {
     return { isLoading: false, isError: false, isSuccess: true, data: [...action.payload.data.reverse()] }
   }
-  case (POLL_LIST_ERROR): {
+  case POLL_LIST_ERROR: {
     return {
       isLoading: false, isSuccess: false, isError: true, data: []
     }
   }
-  case (POLL_LIST_RESET): {
-    {
-      return { ...state, isSuccess: false }
-    }
+  case POLL_LIST_RESET: {
+    return { ...state, isSuccess: false }
   }
   default: return state
   }

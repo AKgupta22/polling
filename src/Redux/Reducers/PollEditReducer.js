@@ -4,20 +4,20 @@ const intialstate = { isLoading: false, isSuccess: false, isError: false, data: 
 const PollEditReducer = (state = intialstate, action) => {
   switch (action.type) {
 
-  case (POLL_EDIT_REQUEST): {
+  case POLL_EDIT_REQUEST: {
     return {
       ...state, isLoading: true
     }
   }
-  case (POLL_EDIT_SUCCESS): {
+  case POLL_EDIT_SUCCESS: {
     return { isLoading: false, isError: false, isSuccess: true, data: {} }
   }
-  case (POLL_EDIT_ERROR): {
+  case POLL_EDIT_ERROR: {
     return {
       isLoading: false, isSuccess: false, isError: true, data: { ...action.payload }
     }
   }
-  case (POLL_EDIT_RESET):
+  case POLL_EDIT_RESET:
   {
     return { ...state, isSuccess: false }
   }

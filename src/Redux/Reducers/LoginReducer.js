@@ -3,20 +3,20 @@ const intialstate = { isLoading: false, isSuccess: false, isError: false, data: 
 
 const LoginReducer = (state = intialstate, action) => {
   switch (action.type) {
-  case (LOGIN_REQUEST): {
+  case LOGIN_REQUEST: {
     return {
       ...state, isLoading: true
     }
   }
-  case (LOGIN_SUCCESS): {
+  case LOGIN_SUCCESS: {
     return { isLoading: false, isError: false, isSuccess: true, data: { ...action.payload } }
   }
-  case (LOGIN_ERROR): {
+  case LOGIN_ERROR: {
     return {
       isLoading: false, isSuccess: false, isError: true, data: { ...action.payload }
     }
   }
-  case (LOGIN_RESET):
+  case LOGIN_RESET:
   {return {...state, isSuccess: false }}
   default:
     return state
