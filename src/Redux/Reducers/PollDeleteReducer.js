@@ -17,7 +17,8 @@ const PollDelReducer = (state = intialstate, action) => {
     }
   }
   case (POLL_DEL_RESET):
-    return intialstate
+  { return { ...state, isSuccess: false } }
+
   default: return state
   }
 }

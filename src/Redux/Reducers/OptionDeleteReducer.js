@@ -31,7 +31,7 @@ const optionDelReducer = (state = intialstate, action) => {
     };
   }
   case (OPTION_DEL_RESET): {
-    return intialstate
+    return {...state, isSuccess: false }
   }
   default: return state
   }

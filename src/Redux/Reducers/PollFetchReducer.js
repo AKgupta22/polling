@@ -18,7 +18,9 @@ const pollFetchReducer = (state = intialstate, action) => {
     }
   }
   case (POLL_LIST_RESET): {
-    return intialstate
+    {
+      return { ...state, isSuccess: false }
+    }
   }
   default: return state
   }

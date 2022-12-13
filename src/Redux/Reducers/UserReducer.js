@@ -18,7 +18,9 @@ const UserReducer = (state = intialstate, action) => {
     }
   }
   case (LOGIN_RESET):
-    return intialstate
+  {
+    return { ...state, isSuccess: false }
+  }
   default: return state
   }
 

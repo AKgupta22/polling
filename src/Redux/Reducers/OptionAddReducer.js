@@ -17,7 +17,7 @@ const optionAddReducer = (state = intialstate, action) => {
     }
   }
   case (OPTION_ADD_RESET):
-    return intialstate
+  {return {...state, isSuccess: false }}
   default: return state
   }
 }

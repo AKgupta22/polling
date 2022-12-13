@@ -17,8 +17,10 @@ const PollEditReducer = (state = intialstate, action) => {
       isLoading: false, isSuccess: false, isError: true, data: { ...action.payload }
     }
   }
-  case (POLL_EDIT_RESET): 
-    return intialstate
+  case (POLL_EDIT_RESET):
+  {
+    return { ...state, isSuccess: false }
+  }
   default: return state
   }
 }
