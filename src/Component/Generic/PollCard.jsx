@@ -45,15 +45,18 @@ export default function PollCard({ item, role }) {
     );
   };
 
-  const deleteOption = (id, text) => {
-    setOpen(true);
-    dispatch(
-      optionDelRequest({
-        token: getLocalStorage("token"),
-        id: id,
-        text: text,
-      })
-    );
+  const deleteOption = (id, text, length) => {
+    if (length <= 1) deletePoll(id);
+    else {
+      setOpen(true);
+      dispatch(
+        optionDelRequest({
+          token: getLocalStorage("token"),
+          id: id,
+          text: text,
+        })
+      );
+    }
   };
 
   return (
@@ -69,7 +72,7 @@ export default function PollCard({ item, role }) {
           Techincal error
         </SnackbarAuto>
       )}
-      
+
       <div className="col-12">
         <h2 className="text-success text-center p-2 w-50 m-auto">
           Poll Title : {item.title}
@@ -100,16 +103,17 @@ export default function PollCard({ item, role }) {
               Option {i + 1} : {option.option}
             </h5>
             {role === "admin" && <h5 className="p-1">Vote : {option.vote}</h5>}
-            {role === "admin" && item.options.length > 1 && (
-              <Button handler={() => deleteOption(item._id, option.option)}>
+            {role === "admin" && (
+              <Button
+                handler={() =>
+                  deleteOption(item._id, option.option, item.options.length)
+                }
+              >
                 <DeleteIcon />
               </Button>
             )}
-            {role === "Guest" && !getLocalStorage(item._id) && (
+            {role === "Guest" && (
               <UserDashBoard item={item} name={option.option} index={i} />
-            )}
-            {role === "Guest" && getLocalStorage(item._id) && (
-              <h5 className="p-1">Vote : {option.vote}</h5>
             )}
           </div>
         ))}

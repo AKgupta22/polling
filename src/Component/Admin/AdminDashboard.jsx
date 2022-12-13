@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { pollRequest, pollReset ,pollDelReset} from "../../Redux/Actions";
+import { pollRequest, pollReset, pollDelReset } from "../../Redux/Actions";
 import getLocalStorage from "../../services/getLocalStorage";
 import PollCard from "../Generic/PollCard";
-import Loader from "../Generic/Loader";
+import BackdropLoader from "../Generic/BackdropLoader";
 import { Link, useNavigate } from "react-router-dom";
 import Pagination from "../Generic/Pagination";
 import Button from "../Generic/Button";
 
 export default function AdminDashboard() {
-  const state = useSelector((state) => state.pollFetchReducer);
+  const statePollList = useSelector((state) => state.pollFetchReducer);
   const statePollDel = useSelector((state) => state.PollDelReducer);
   const stateOptionDel = useSelector((state) => state.optionDelReducer);
-  const voteState = useSelector((state) => state.voteReducer);
+  const stateVote = useSelector((state) => state.voteReducer);
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const [role, setRole] = useState("");
@@ -24,10 +24,9 @@ export default function AdminDashboard() {
     return () => {
       dispatch(pollReset());
       dispatch(pollDelReset());
-
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statePollDel.isSuccess, stateOptionDel.isSuccess,voteState.isSuccess]);
+  }, [statePollDel.isSuccess, stateOptionDel.isSuccess, stateVote.isSuccess]);
 
   const Logout = () => {
     localStorage.removeItem("login");
@@ -55,16 +54,13 @@ export default function AdminDashboard() {
       <div className="w-100 text-center mb-2">
         <Button handler={Logout}>Logout</Button>
       </div>
-      {state.isLoading ? (
-        <h4 className="text-center">
-          <Loader />{" "}
-        </h4>
-      ) : (
-        ""
-      )}
+      {statePollList.isLoading ? <BackdropLoader /> : ""}
       <div className="row">
         {data?.map((item, i) => (
-          <div key={i} className="col-md-8 col-sm-10 col-11 m-auto mt-2 mb-2 my-card">
+          <div
+            key={i}
+            className="col-md-8 col-sm-10 col-11 m-auto mt-2 mb-2 my-card"
+          >
             <PollCard item={item} role={role} />
           </div>
         ))}
