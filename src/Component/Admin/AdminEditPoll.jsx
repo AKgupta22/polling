@@ -70,7 +70,7 @@ export default function AdminEditPoll() {
       ) : (
         ""
       )}
-      {state.isError ? <Snackbar type="error" message={"Some Error"} /> : ""}
+      {state.isError ? <Snackbar type="error" message={"Technical exception"} /> : ""}
       <FormWrapper handler={handleForm}>
         <TextField
           onChange={(e) => setData(e.target.value)}
@@ -88,7 +88,7 @@ export default function AdminEditPoll() {
           {editState.isLoading ? <Loader /> : "EDIT"}
         </Button>
         {editState.isError ? (
-          <Snackbar type="error" message={state.data.data} />
+          <Snackbar type="error" message={state.data.data?state.data.data:"Technical exception"} />
         ) : (
           ""
         )}

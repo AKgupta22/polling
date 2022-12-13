@@ -12,6 +12,7 @@ export default function AdminDashboard() {
   const state = useSelector((state) => state.pollFetchReducer);
   const statePollDel = useSelector((state) => state.PollDelReducer);
   const stateOptionDel = useSelector((state) => state.optionDelReducer);
+  const voteState = useSelector((state) => state.voteReducer);
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const [role, setRole] = useState("");
@@ -26,7 +27,7 @@ export default function AdminDashboard() {
 
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statePollDel.isSuccess, stateOptionDel.isSuccess]);
+  }, [statePollDel.isSuccess, stateOptionDel.isSuccess,voteState.isSuccess]);
 
   const Logout = () => {
     localStorage.removeItem("login");
@@ -63,7 +64,7 @@ export default function AdminDashboard() {
       )}
       <div className="row">
         {data?.map((item, i) => (
-          <div key={i} className="col-8 m-auto mt-2 mb-2 my-card">
+          <div key={i} className="col-md-8 col-sm-10 col-11 m-auto mt-2 mb-2 my-card">
             <PollCard item={item} role={role} />
           </div>
         ))}

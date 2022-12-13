@@ -13,19 +13,27 @@ import getLocalStorage from "../../services/getLocalStorage";
 import Loader from "./Loader";
 import UserDashBoard from "../User/UserDashboard";
 import LinkButton from "../Generic/LinkButton";
+import SnackbarAuto from "./SnackbarAuto";
 
 export default function PollCard({ item, role }) {
   const dispatch = useDispatch();
   const optionDelstate = useSelector((state) => state.optionDelReducer);
   const pollDelState = useSelector((state) => state.PollDelReducer);
   const [delid, setDelid] = useState("");
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (optionDelstate.isSuccess)
-      return () => {
-        dispatch(optionDelReset());
-      };
+    if (optionDelstate.isLoading) setOpen(true);
+    if (optionDelstate.isSuccess) dispatch(optionDelReset());
   }, [optionDelstate.isSuccess]);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const deletePoll = (id) => {
     setDelid(id);
@@ -38,6 +46,7 @@ export default function PollCard({ item, role }) {
   };
 
   const deleteOption = (id, text) => {
+    setOpen(true);
     dispatch(
       optionDelRequest({
         token: getLocalStorage("token"),
@@ -49,28 +58,23 @@ export default function PollCard({ item, role }) {
 
   return (
     <div className="row poll-card">
-      <div className="col-md-6 col-12">
+      {optionDelstate.isLoading && (
+        <SnackbarAuto type="success" open={open} handleClose={handleClose}>
+          Deleting....
+        </SnackbarAuto>
+      )}
+
+      {optionDelstate.isError && (
+        <SnackbarAuto type="error" open={open} handleClose={handleClose}>
+          Techincal error
+        </SnackbarAuto>
+      )}
+      
+      <div className="col-12">
         <h2 className="text-success text-center p-2 w-50 m-auto">
           Poll Title : {item.title}
         </h2>
-        {item.options?.map((option, i) => (
-          <div
-            key={i}
-            className="btn-container d-flex justify-content-center p-2"
-          >
-            <h5 key={i} className="text-center p-2 w-50">
-              Option {i + 1} : {option.option}
-            </h5>
-            {role === "admin" && (
-              <Button handler={() => deleteOption(item._id, option.option)}>
-                <DeleteIcon />
-              </Button>
-            )}
-          </div>
-        ))}
-      </div>
-      {role === "admin" ? (
-        <div className="col-md-6 col-12">
+        {role === "admin" && (
           <div className="btn-container d-flex justify-content-center p-2">
             <Button handler={() => deletePoll(item._id)}>
               {pollDelState.isLoading && delid === item._id ? (
@@ -89,19 +93,27 @@ export default function PollCard({ item, role }) {
               </LinkButton>
             )}
           </div>
-          <div className="vote">
-            {item.options?.map((option, i) => (
-              <h5 key={i} className="text-center p-3">
-                Vote : {option.vote}
-              </h5>
-            ))}
+        )}
+        {item.options?.map((option, i) => (
+          <div key={i} className="d-flex justify-content-evenly mt-2 mb-2">
+            <h5 className="p-1 w-25">
+              Option {i + 1} : {option.option}
+            </h5>
+            {role === "admin" && <h5 className="p-1">Vote : {option.vote}</h5>}
+            {role === "admin" && item.options.length > 1 && (
+              <Button handler={() => deleteOption(item._id, option.option)}>
+                <DeleteIcon />
+              </Button>
+            )}
+            {role === "Guest" && !getLocalStorage(item._id) && (
+              <UserDashBoard item={item} name={option.option} index={i} />
+            )}
+            {role === "Guest" && getLocalStorage(item._id) && (
+              <h5 className="p-1">Vote : {option.vote}</h5>
+            )}
           </div>
-        </div>
-      ) : (
-        <div className="col-md-6 col-12">
-          <UserDashBoard item={item} />
-        </div>
-      )}
+        ))}
+      </div>
     </div>
   );
 }

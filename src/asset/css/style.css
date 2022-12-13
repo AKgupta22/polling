@@ -85,3 +85,6 @@
     flex-direction: column;
     justify-content: flex-end;
 }
+.MuiInputBase-root{
+    border-radius: 7px!important;
+}

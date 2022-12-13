@@ -79,7 +79,7 @@ export default function AdminAddPoll() {
       ) : (
         ""
       )}
-      {state.isError ? <Snackbar type="error" message={"Some Error"} /> : ""}
+      {state.isError ? <Snackbar type="error" message={"Technical Exception"} /> : ""}
       <FormWrapper handler={handleForm}>
         <TextField
           onChange={handleChange}
