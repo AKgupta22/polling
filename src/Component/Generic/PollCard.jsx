@@ -87,8 +87,8 @@ export default function PollCard({ item, role }) {
       )}
 
       <div className="col-12">
-        <div className="d-flex justify-content-evenly">
-          <h2 className="text-success p-2 w-75 m-auto">
+        <div className="d-flex justify-content-evenly admin-action">
+          <h2 className="text-success p-2 m-auto admin-action_h2">
             Poll{" "}
             {statePollList.data.findIndex(
               (element) => element._id === item._id
@@ -96,7 +96,7 @@ export default function PollCard({ item, role }) {
             : {item.title}
           </h2>
           {role === "admin" && (
-            <div className="btn-container d-flex justify-content-center p-2" style={{width:"21%"}}>
+            <div className="d-flex justify-content-center p-2 admin-action_btn">
               <Button handler={() => deletePoll(item._id)}>
                 {pollDelState.isLoading && delid === item._id ? (
                   <Loader />
