@@ -15,6 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Wrapper from "../Generic/Wrapper";
 import FormWrapper from "../Generic/FormWrapper";
 import AlertAdd from "../Generic/AlertAdd";
+import BackButton from "../Generic/BackButton";
 
 export default function AdminAddOption() {
   const dispatch = useDispatch();
@@ -100,6 +101,7 @@ export default function AdminAddOption() {
         <Button type="sumbit" variant="contained" className="custom-btn">
           {addState.isLoading ? <Loader /> : "ADD"}
         </Button>
+        <BackButton />
         {addState.isError ? (
           <Snackbar type="error" message="Some technical exception" />
         ) : (

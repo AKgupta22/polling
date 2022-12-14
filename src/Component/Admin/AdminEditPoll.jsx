@@ -14,6 +14,7 @@ import Snackbar from "../Generic/Snackbar";
 import { useNavigate, useParams } from "react-router-dom";
 import Wrapper from "../Generic/Wrapper";
 import FormWrapper from "../Generic/FormWrapper";
+import BackButton from "../Generic/BackButton";
 
 export default function AdminEditPoll() {
   const dispatch = useDispatch();
@@ -95,6 +96,7 @@ export default function AdminEditPoll() {
         <Button type="sumbit" variant="contained" className="custom-btn">
           {editState.isLoading ? <Loader /> : "EDIT"}
         </Button>
+        <BackButton/>
         {editState.isError ? (
           <Snackbar
             type="error"

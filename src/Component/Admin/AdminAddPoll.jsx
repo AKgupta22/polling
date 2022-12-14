@@ -12,6 +12,8 @@ import { useNavigate } from "react-router-dom";
 import Wrapper from "../Generic/Wrapper";
 import FormWrapper from "../Generic/FormWrapper";
 import removelocalStorage from "../../services/removeLocalStorage";
+import BackButton from "../Generic/BackButton";
+
 
 export default function AdminAddPoll() {
   const dispatch = useDispatch();
@@ -115,6 +117,7 @@ export default function AdminAddPoll() {
         <Button type="sumbit" variant="contained" className="custom-btn">
           {state.isLoading ? <Loader /> : "SUBMIT"}
         </Button>
+        <BackButton/>
         {duplicate ? (
           <AlertAdd
             text="Duplicate option is not allowed!!"
