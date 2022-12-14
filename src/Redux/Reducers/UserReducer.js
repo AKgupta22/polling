@@ -3,22 +3,26 @@ import { REGISTRATION_SUCCESS, REGISTRATION_ERROR, REGISTRATION_REQUEST, LOGIN_R
 const intialstate = { isLoading: false, isSuccess: false, isError: false, data: {} }
 
 const UserReducer = (state = intialstate, action) => {
-  if (action.type === REGISTRATION_REQUEST) {
+  switch (action.type) {
+  case REGISTRATION_REQUEST: {
     return {
       ...state, isLoading: true
     }
   }
-  else if (action.type === REGISTRATION_SUCCESS) {
+  case REGISTRATION_SUCCESS: {
     return { isLoading: false, isError: false, isSuccess: true, data: { ...action.payload } }
   }
-  else if (action.type === REGISTRATION_ERROR) {
+  case REGISTRATION_ERROR: {
     return {
       isLoading: false, isSuccess: false, isError: true, data: { ...action.payload }
     }
   }
-  else if (action.type === LOGIN_RESET) {
-    return intialstate
+  case LOGIN_RESET:
+  {
+    return { ...state, isSuccess: false }
   }
-  return state
+  default: return state
+  }
+
 }
 export default UserReducer

@@ -1,34 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { pollRequest, pollReset } from "../../Redux/Actions";
+import { pollRequest } from "../../Redux/Actions";
 import getLocalStorage from "../../services/getLocalStorage";
 import PollCard from "../Generic/PollCard";
-import Loader from "../Generic/Loader";
+import BackdropLoader from "../Generic/BackdropLoader";
 import { Link, useNavigate } from "react-router-dom";
 import Pagination from "../Generic/Pagination";
 import Button from "../Generic/Button";
 
 export default function AdminDashboard() {
-  const state = useSelector((state) => state.pollFetchReducer);
-  const statePollDel = useSelector((state) => state.PollDelReducer);
+  const statePollList = useSelector((state) => state.pollFetchReducer);
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const [role, setRole] = useState("");
-  const navigate=useNavigate()
-  
-  useEffect(() => {
-    dispatch(pollRequest({ token: getLocalStorage("token") }));
-    setRole(getLocalStorage("role"));
-    return () => {
-      dispatch(pollReset());
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statePollDel.isSuccess]);
+  const navigate = useNavigate();
 
-  const Logout=()=>{
-    localStorage.clear()
-    navigate("/")
-  }
+  useEffect(() => {
+    if (statePollList.isSuccess === false) {
+      dispatch(pollRequest({ token: getLocalStorage("token") }));
+    }
+    setRole(getLocalStorage("role"));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [statePollList.isSuccess]);
+
+  const Logout = () => {
+    localStorage.removeItem("login");
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    navigate("/");
+  };
 
   return (
     <div className="container-fluid" style={{ minHeight: "100vh" }}>
@@ -47,27 +47,20 @@ export default function AdminDashboard() {
         </div>
       )}
       <div className="w-100 text-center mb-2">
-        <Button
-          handler={Logout}
-        >
-          Logout
-        </Button>
+        <Button handler={Logout}>Logout</Button>
       </div>
-      {state.isLoading ? (
-        <h4 className="text-center">
-          <Loader />{" "}
-        </h4>
-      ) : (
-        ""
-      )}
+      {statePollList.isLoading ? <BackdropLoader /> : ""}
       <div className="row">
         {data?.map((item, i) => (
-          <div key={i} className="col-8 m-auto mt-2 mb-2 my-card">
+          <div
+            key={i}
+            className="col-md-8 col-sm-10 col-11 m-auto mt-2 mb-2 my-card"
+          >
             <PollCard item={item} role={role} />
           </div>
         ))}
       </div>
-      <Pagination data={data} setData={setData} />
+      <Pagination setData={setData} />
     </div>
   );
 }

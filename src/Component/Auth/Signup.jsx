@@ -65,7 +65,14 @@ export default function Signup() {
         ""
       )}
       {state.isError ? (
-        <Snackbar type="error" message={`${state.data?.message}`} />
+        <Snackbar
+          type="error"
+          message={
+            state.data.message
+              ? `${state.data?.message}`
+              : "Technical Exception"
+          }
+        />
       ) : (
         ""
       )}

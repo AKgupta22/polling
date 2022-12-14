@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { pollAddRequest, pollAddReset } from "../../Redux/Actions";
+import { pollAddRequest, pollAddReset, pollReset } from "../../Redux/Actions";
 import getLocalStorage from "../../services/getLocalStorage";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Generic/Loader";
@@ -11,12 +11,16 @@ import InputField from "../Generic/InputField";
 import { useNavigate } from "react-router-dom";
 import Wrapper from "../Generic/Wrapper";
 import FormWrapper from "../Generic/FormWrapper";
+import removelocalStorage from "../../services/removeLocalStorage";
+import BackButton from "../Generic/BackButton";
+
 
 export default function AdminAddPoll() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.PollAddReducer);
   const [fields, setFields] = useState([]);
   const [show, setShow] = useState(false);
+  const [duplicate, setDuplicate] = useState(false);
   const navigate = useNavigate();
   const [data, setData] = useState({
     title: "",
@@ -30,10 +34,12 @@ export default function AdminAddPoll() {
         option1: "",
       });
       navigate("/dashboard");
+      return () => {
+        dispatch(pollAddReset());
+        dispatch(pollReset());
+        removelocalStorage("page");
+      };
     }
-    return () => {
-      dispatch(pollAddReset());
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isSuccess]);
 
@@ -50,7 +56,10 @@ export default function AdminAddPoll() {
 
   const handleForm = (e) => {
     e.preventDefault();
-    dispatch(pollAddRequest({ data: data, token: getLocalStorage("token") }));
+    const validateDuplicate = (arr) => new Set(arr).size !== arr.length;
+    if (validateDuplicate(Object.values(data).slice(1)) === false) {
+      dispatch(pollAddRequest({ data: data, token: getLocalStorage("token") }));
+    } else setDuplicate(true);
   };
 
   const AddOption = () => {
@@ -75,7 +84,11 @@ export default function AdminAddPoll() {
       ) : (
         ""
       )}
-      {state.isError ? <Snackbar type="error" message={"Some Error"} /> : ""}
+      {state.isError ? (
+        <Snackbar type="error" message={"Technical Exception"} />
+      ) : (
+        ""
+      )}
       <FormWrapper handler={handleForm}>
         <TextField
           onChange={handleChange}
@@ -104,6 +117,15 @@ export default function AdminAddPoll() {
         <Button type="sumbit" variant="contained" className="custom-btn">
           {state.isLoading ? <Loader /> : "SUBMIT"}
         </Button>
+        <BackButton/>
+        {duplicate ? (
+          <AlertAdd
+            text="Duplicate option is not allowed!!"
+            handler={() => setDuplicate(false)}
+          />
+        ) : (
+          ""
+        )}
       </FormWrapper>
     </Wrapper>
   );

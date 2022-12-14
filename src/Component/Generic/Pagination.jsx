@@ -1,33 +1,48 @@
 import React, { useEffect, useState } from "react";
 import TablePagination from "@mui/material/TablePagination";
 import { useSelector } from "react-redux";
+import setLocalStorage from "../../services/setLocalStorage";
+import getLocalStorage from "../../services/getLocalStorage";
+import removeLocalStorage from "../../services/removeLocalStorage";
 
 export default function Pagination({ setData }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [count, setCount] = useState(0);
-  const state = useSelector((state) => state.pollFetchReducer);
+  const pollListState = useSelector((state) => state.pollFetchReducer);
 
   useEffect(() => {
-    setCount(state.data.length);
+    if (getLocalStorage("rows"))
+      setRowsPerPage(parseInt(getLocalStorage("rows")));
+    if (getLocalStorage("page")) setPage(parseInt(getLocalStorage("page")));
+  }, []);
+
+  useEffect(() => {
+    setCount(pollListState.data.length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.isSuccess]);
+  }, [pollListState.isSuccess]);
 
   useEffect(() => {
-    let tempData = [...state.data];
+    let tempData = [...pollListState.data];
     const startIndex = page * rowsPerPage;
-    const lastIndex = startIndex  + rowsPerPage;
+    const lastIndex = startIndex + rowsPerPage;
     tempData = tempData.slice(startIndex, lastIndex);
+    if (tempData.length <= 0) {
+      if (count > 0) setPage((prev) => prev - 1);
+    }
     setData(tempData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rowsPerPage, page, state.isSuccess]);
+  }, [rowsPerPage, page, pollListState.isSuccess]);
 
   const handleChangePage = (event, newPage) => {
+    setLocalStorage("page", newPage);
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
+    removeLocalStorage("page");
+    setLocalStorage("rows", event.target.value);
     setPage(0);
   };
 
@@ -44,4 +59,4 @@ export default function Pagination({ setData }) {
     />
   );
 }
-React.memo(Pagination)
+React.memo(Pagination);

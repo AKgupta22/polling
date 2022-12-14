@@ -3,9 +3,9 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {
   singlePollRequest,
-  pollEditRequest,
-  pollEditReset,
-  pollReset,
+  optionAddRequest,
+  optionAddReset,
+  pollRequest,
 } from "../../Redux/Actions";
 import getLocalStorage from "../../services/getLocalStorage";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,96 +14,104 @@ import Snackbar from "../Generic/Snackbar";
 import { useNavigate, useParams } from "react-router-dom";
 import Wrapper from "../Generic/Wrapper";
 import FormWrapper from "../Generic/FormWrapper";
+import AlertAdd from "../Generic/AlertAdd";
 import BackButton from "../Generic/BackButton";
 
-export default function AdminEditPoll() {
+export default function AdminAddOption() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.SinglePollReducer);
-  const editState = useSelector((state) => state.PollEditReducer);
+  const addState = useSelector((state) => state.optionAddReducer);
   const pollListState = useSelector((state) => state.pollFetchReducer);
   const [data, setData] = useState("");
+  const [newoption, setNewoption] = useState("");
+  const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
     if (pollListState.data.length > 0) {
       const poll = pollListState.data.filter((item) => item._id === id);
-      setData(poll[0].title);
+      setData(poll[0]);
     } else
       dispatch(singlePollRequest({ id: id, token: getLocalStorage("token") }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   useEffect(() => {
-    if (pollListState.data.length === 0) setData(state.data.title);
+    if (pollListState.data.length === 0) setData(state.data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.data]);
 
   useEffect(() => {
-    if (editState.isSuccess) {
+    if (addState.isSuccess) {
       navigate("/dashboard");
+      return () => {
+        dispatch(optionAddReset());
+        dispatch(pollRequest());
+      };
     }
-    return () => {
-      if (editState.isSuccess === true) {
-        dispatch(pollEditReset());
-        dispatch(pollReset());
-      }
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editState.isSuccess]);
+  }, [addState.isSuccess]);
 
   const handleForm = (e) => {
     e.preventDefault();
-    dispatch(
-      pollEditRequest({
-        id: id,
-        newTitle: data,
-        token: getLocalStorage("token"),
-      })
-    );
+    if (data?.options.filter((item) => item.option === newoption).length <= 0)
+      dispatch(
+        optionAddRequest({
+          id: id,
+          text: newoption,
+          token: getLocalStorage("token"),
+        })
+      );
+    else setShow(true);
   };
 
   return (
-    <Wrapper heading="Edit Poll">
+    <Wrapper heading="Add Option">
       {state.isLoading && (
         <h4 className="text-center">
           <Loader />
         </h4>
       )}
-      {editState.isSuccess ? (
+      {addState.isSuccess ? (
         <Snackbar type="success" message="succesful! Redirecting....." />
       ) : (
         ""
       )}
-      {state.isError ? (
-        <Snackbar type="error" message={"Technical exception"} />
-      ) : (
-        ""
-      )}
+      {state.isError ? <Snackbar type="error" message={"Some Error"} /> : ""}
       <FormWrapper handler={handleForm}>
         <TextField
-          onChange={(e) => setData(e.target.value)}
           id="outlined-title-input"
-          label="Poll Title"
+          label="Title"
           type="text"
           autoComplete="poll-title"
-          placeholder="Enter Poll Title"
-          name="title"
-          value={data === undefined ? "" : data}
+          value={data.title ? data.title : ""}
+          disabled
+        />
+        <TextField
+          onChange={(e) => setNewoption(e.target.value)}
+          id="outlined-title-input"
+          label="New Option"
+          type="text"
+          autoComplete="poll-title"
+          placeholder="Enter new option"
+          value={newoption}
           required
         />
-
         <Button type="sumbit" variant="contained" className="custom-btn">
-          {editState.isLoading ? <Loader /> : "EDIT"}
+          {addState.isLoading ? <Loader /> : "ADD"}
         </Button>
-        <BackButton/>
-        {editState.isError ? (
-          <Snackbar
-            type="error"
-            message={state.data.data ? state.data.data : "Technical exception"}
-          />
+        <BackButton />
+        {addState.isError ? (
+          <Snackbar type="error" message="Some technical exception" />
         ) : (
           ""
+        )}
+        {show && (
+          <AlertAdd
+            text="Duplicate option is not allowed"
+            handler={() => setShow(false)}
+          />
         )}
       </FormWrapper>
     </Wrapper>
