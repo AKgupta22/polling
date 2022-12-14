@@ -39,17 +39,12 @@ export default function UserDashBoard(props) {
 
   return (
     <>
-      <div>
+      <div style={{ margin: "inherit" }}>
         <SnackbarAuto open={open} handleClose={handleClose} type="success">
           Vote recorded successfully
         </SnackbarAuto>
-        <div className="form-check">
+        <div className="form-check text-center">
           <input
-            style={{
-              border: "2px solid black",
-              opacity: 1,
-              background: "white",
-            }}
             className="form-check-input"
             type="radio"
             name={`${props.name}`}
@@ -58,14 +53,14 @@ export default function UserDashBoard(props) {
             onClick={() => doVote(props.item._id, props.name)}
             disabled={getLoacalStorage(props.item._id) ? true : false}
           />
-          {voteState.isLoading &&
-          optionId === props.item._id &&
-          option === props.name ? (
-              <Loader />
-            ) : (
-              ""
-            )}
         </div>
+        {voteState.isLoading &&
+        optionId === props.item._id &&
+        option === props.name ? (
+            <Loader />
+          ) : (
+            ""
+          )}
       </div>
     </>
   );

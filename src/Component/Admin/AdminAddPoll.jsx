@@ -11,6 +11,7 @@ import InputField from "../Generic/InputField";
 import { useNavigate } from "react-router-dom";
 import Wrapper from "../Generic/Wrapper";
 import FormWrapper from "../Generic/FormWrapper";
+import removelocalStorage from "../../services/removeLocalStorage";
 
 export default function AdminAddPoll() {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ export default function AdminAddPoll() {
       return () => {
         dispatch(pollAddReset());
         dispatch(pollReset());
+        removelocalStorage("page");
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

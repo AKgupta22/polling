@@ -19,6 +19,7 @@ import SnackbarAuto from "./SnackbarAuto";
 
 export default function PollCard({ item, role }) {
   const dispatch = useDispatch();
+  const statePollList = useSelector((state) => state.pollFetchReducer);
   const optionDelstate = useSelector((state) => state.optionDelReducer);
   const pollDelState = useSelector((state) => state.PollDelReducer);
   const [delid, setDelid] = useState("");
@@ -86,32 +87,38 @@ export default function PollCard({ item, role }) {
       )}
 
       <div className="col-12">
-        <h2 className="text-success text-center p-2 w-50 m-auto">
-          Poll Title : {item.title}
-        </h2>
-        {role === "admin" && (
-          <div className="btn-container d-flex justify-content-center p-2">
-            <Button handler={() => deletePoll(item._id)}>
-              {pollDelState.isLoading && delid === item._id ? (
-                <Loader />
-              ) : (
-                <DeleteIcon />
-              )}
-            </Button>
-            <LinkButton to={`/admin-edit-poll/${item._id}`}>
-              <EditIcon />
-            </LinkButton>
-
-            {item.options.length < 4 && (
-              <LinkButton to={`/admin-add-option/${item._id}`}>
-                <AddIcon />
+        <div className="d-flex justify-content-evenly">
+          <h2 className="text-success p-2 w-75 m-auto">
+            Poll{" "}
+            {statePollList.data.findIndex(
+              (element) => element._id === item._id
+            ) + 1}{" "}
+            : {item.title}
+          </h2>
+          {role === "admin" && (
+            <div className="btn-container d-flex justify-content-center p-2" style={{width:"21%"}}>
+              <Button handler={() => deletePoll(item._id)}>
+                {pollDelState.isLoading && delid === item._id ? (
+                  <Loader />
+                ) : (
+                  <DeleteIcon />
+                )}
+              </Button>
+              <LinkButton to={`/admin-edit-poll/${item._id}`}>
+                <EditIcon />
               </LinkButton>
-            )}
-          </div>
-        )}
+
+              {item.options.length < 4 && (
+                <LinkButton to={`/admin-add-option/${item._id}`}>
+                  <AddIcon />
+                </LinkButton>
+              )}
+            </div>
+          )}
+        </div>
         {item.options?.map((option, i) => (
           <div key={i} className="d-flex justify-content-evenly mt-2 mb-2">
-            <h5 className="p-1 w-25">
+            <h5 className="p-1 w-75">
               Option {i + 1} : {option.option}
             </h5>
             {role === "admin" && <h5 className="p-1">Vote : {option.vote}</h5>}

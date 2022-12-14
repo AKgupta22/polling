@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
 import TablePagination from "@mui/material/TablePagination";
 import { useSelector } from "react-redux";
+import setLocalStorage from "../../services/setLocalStorage";
+import getLocalStorage from "../../services/getLocalStorage";
+import removeLocalStorage from "../../services/removeLocalStorage";
 
 export default function Pagination({ setData }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [count, setCount] = useState(0);
   const pollListState = useSelector((state) => state.pollFetchReducer);
-  // const pollDelState = useSelector((state) => state.PollDelReducer);
+
+  useEffect(() => {
+    if (getLocalStorage("rows"))
+      setRowsPerPage(parseInt(getLocalStorage("rows")));
+    if (getLocalStorage("page")) setPage(parseInt(getLocalStorage("page")));
+  }, []);
 
   useEffect(() => {
     setCount(pollListState.data.length);
@@ -27,11 +35,14 @@ export default function Pagination({ setData }) {
   }, [rowsPerPage, page, pollListState.isSuccess]);
 
   const handleChangePage = (event, newPage) => {
+    setLocalStorage("page", newPage);
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
+    removeLocalStorage("page");
+    setLocalStorage("rows", event.target.value);
     setPage(0);
   };
 

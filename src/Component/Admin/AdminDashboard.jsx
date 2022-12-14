@@ -60,7 +60,7 @@ export default function AdminDashboard() {
           </div>
         ))}
       </div>
-      <Pagination data={data} setData={setData} />
+      <Pagination setData={setData} />
     </div>
   );
 }
