@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { pollAddRequest, pollAddReset } from "../../Redux/Actions";
+import { pollAddRequest, pollAddReset, pollReset } from "../../Redux/Actions";
 import getLocalStorage from "../../services/getLocalStorage";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Generic/Loader";
@@ -31,10 +31,11 @@ export default function AdminAddPoll() {
         option1: "",
       });
       navigate("/dashboard");
+      return () => {
+        dispatch(pollAddReset());
+        dispatch(pollReset());
+      };
     }
-    return () => {
-      dispatch(pollAddReset());
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isSuccess]);
 
@@ -79,7 +80,11 @@ export default function AdminAddPoll() {
       ) : (
         ""
       )}
-      {state.isError ? <Snackbar type="error" message={"Technical Exception"} /> : ""}
+      {state.isError ? (
+        <Snackbar type="error" message={"Technical Exception"} />
+      ) : (
+        ""
+      )}
       <FormWrapper handler={handleForm}>
         <TextField
           onChange={handleChange}

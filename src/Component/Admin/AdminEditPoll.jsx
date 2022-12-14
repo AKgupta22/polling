@@ -5,6 +5,7 @@ import {
   singlePollRequest,
   pollEditRequest,
   pollEditReset,
+  pollReset,
 } from "../../Redux/Actions";
 import getLocalStorage from "../../services/getLocalStorage";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +13,7 @@ import Loader from "../Generic/Loader";
 import Snackbar from "../Generic/Snackbar";
 import { useNavigate, useParams } from "react-router-dom";
 import Wrapper from "../Generic/Wrapper";
-import FormWrapper from "../Generic/FormWrapper"
+import FormWrapper from "../Generic/FormWrapper";
 
 export default function AdminEditPoll() {
   const dispatch = useDispatch();
@@ -42,7 +43,10 @@ export default function AdminEditPoll() {
       navigate("/dashboard");
     }
     return () => {
-      dispatch(pollEditReset());
+      if (editState.isSuccess === true) {
+        dispatch(pollEditReset());
+        dispatch(pollReset());
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editState.isSuccess]);
@@ -70,7 +74,11 @@ export default function AdminEditPoll() {
       ) : (
         ""
       )}
-      {state.isError ? <Snackbar type="error" message={"Technical exception"} /> : ""}
+      {state.isError ? (
+        <Snackbar type="error" message={"Technical exception"} />
+      ) : (
+        ""
+      )}
       <FormWrapper handler={handleForm}>
         <TextField
           onChange={(e) => setData(e.target.value)}
@@ -88,7 +96,10 @@ export default function AdminEditPoll() {
           {editState.isLoading ? <Loader /> : "EDIT"}
         </Button>
         {editState.isError ? (
-          <Snackbar type="error" message={state.data.data?state.data.data:"Technical exception"} />
+          <Snackbar
+            type="error"
+            message={state.data.data ? state.data.data : "Technical exception"}
+          />
         ) : (
           ""
         )}

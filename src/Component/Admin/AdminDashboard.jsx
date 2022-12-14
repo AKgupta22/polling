@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { pollRequest, pollReset, pollDelReset } from "../../Redux/Actions";
+import { pollRequest } from "../../Redux/Actions";
 import getLocalStorage from "../../services/getLocalStorage";
 import PollCard from "../Generic/PollCard";
 import BackdropLoader from "../Generic/BackdropLoader";
@@ -10,23 +10,18 @@ import Button from "../Generic/Button";
 
 export default function AdminDashboard() {
   const statePollList = useSelector((state) => state.pollFetchReducer);
-  const statePollDel = useSelector((state) => state.PollDelReducer);
-  const stateOptionDel = useSelector((state) => state.optionDelReducer);
-  const stateVote = useSelector((state) => state.voteReducer);
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const [role, setRole] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(pollRequest({ token: getLocalStorage("token") }));
+    if (statePollList.isSuccess === false) {
+      dispatch(pollRequest({ token: getLocalStorage("token") }));
+    }
     setRole(getLocalStorage("role"));
-    return () => {
-      dispatch(pollReset());
-      dispatch(pollDelReset());
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statePollDel.isSuccess, stateOptionDel.isSuccess, stateVote.isSuccess]);
+  }, [statePollList.isSuccess]);
 
   const Logout = () => {
     localStorage.removeItem("login");

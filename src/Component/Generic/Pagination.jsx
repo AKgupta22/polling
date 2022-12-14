@@ -6,21 +6,25 @@ export default function Pagination({ setData }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [count, setCount] = useState(0);
-  const state = useSelector((state) => state.pollFetchReducer);
+  const pollListState = useSelector((state) => state.pollFetchReducer);
+  // const pollDelState = useSelector((state) => state.PollDelReducer);
 
   useEffect(() => {
-    setCount(state.data.length);
+    setCount(pollListState.data.length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.isSuccess]);
+  }, [pollListState.isSuccess]);
 
   useEffect(() => {
-    let tempData = [...state.data];
+    let tempData = [...pollListState.data];
     const startIndex = page * rowsPerPage;
-    const lastIndex = startIndex  + rowsPerPage;
+    const lastIndex = startIndex + rowsPerPage;
     tempData = tempData.slice(startIndex, lastIndex);
+    if (tempData.length <= 0) {
+      if (count > 0) setPage((prev) => prev - 1);
+    }
     setData(tempData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rowsPerPage, page, state.isSuccess]);
+  }, [rowsPerPage, page, pollListState.isSuccess]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -44,4 +48,4 @@ export default function Pagination({ setData }) {
     />
   );
 }
-React.memo(Pagination)
+React.memo(Pagination);

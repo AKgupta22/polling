@@ -7,6 +7,8 @@ import {
   pollDelRequest,
   optionDelRequest,
   optionDelReset,
+  pollReset,
+  pollDelReset,
 } from "../../Redux/Actions";
 import { useDispatch, useSelector } from "react-redux";
 import getLocalStorage from "../../services/getLocalStorage";
@@ -24,8 +26,18 @@ export default function PollCard({ item, role }) {
 
   useEffect(() => {
     if (optionDelstate.isLoading) setOpen(true);
-    if (optionDelstate.isSuccess) dispatch(optionDelReset());
+    if (optionDelstate.isSuccess) {
+      dispatch(optionDelReset());
+      dispatch(pollReset());
+    }
   }, [optionDelstate.isSuccess]);
+
+  useEffect(() => {
+    if (pollDelState.isSuccess) {
+      dispatch(pollDelReset());
+      dispatch(pollReset());
+    }
+  }, [pollDelState.isSuccess]);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {

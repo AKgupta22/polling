@@ -12,7 +12,7 @@ export default function SnackbarAuto(props) {
     <Stack spacing={2} sx={{ width: "100%" }}>
       <Snackbar
         open={props.open}
-        autoHideDuration={8000}
+        autoHideDuration={3000}
         onClose={props.handleClose}
         anchorOrigin={{ horizontal: "right", vertical: "top" }}
       >

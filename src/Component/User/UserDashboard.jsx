@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { voteRequest, voteReset } from "../../Redux/Actions";
+import { pollReset, voteRequest, voteReset } from "../../Redux/Actions";
 import getLoacalStorage from "../../services/getLocalStorage";
 import setLoacalStorage from "../../services/setLocalStorage";
 import Loader from "../Generic/Loader";
+import SnackbarAuto from "../Generic/SnackbarAuto";
 
 export default function UserDashBoard(props) {
   const dispatch = useDispatch();
   const voteState = useSelector((state) => state.voteReducer);
   const [optionId, setOptionId] = useState("");
   const [option, setOption] = useState("");
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (voteState.isSuccess) {
       setLoacalStorage(optionId, true);
       setLoacalStorage(`${optionId}option`, option);
-      return () => {
-        dispatch(voteReset());
-      };
+      setOpen(true);
+      setOption("");
+      setOptionId("");
+      dispatch(voteReset());
+      dispatch(pollReset());
     }
   }, [voteState.isSuccess]);
 
@@ -29,15 +33,22 @@ export default function UserDashBoard(props) {
     );
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <>
       <div>
+        <SnackbarAuto open={open} handleClose={handleClose} type="success">
+          Vote recorded successfully
+        </SnackbarAuto>
         <div className="form-check">
           <input
             style={{
               border: "2px solid black",
               opacity: 1,
-              background:"white"
+              background: "white",
             }}
             className="form-check-input"
             type="radio"
